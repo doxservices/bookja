@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Task UI · Theme Gallery (Patched) + Spacing</title>
+<style>
+  :root {
+    --bg-a:#FAFCFB;
+    --bg-b:#F3F7F4;
+    --ui-surface:#FFFFFF;
+    --ui-surface-2:#F4F7F5;
+    --ui-border:#E2EAE5;
+    --text:#1f2623;
+    --muted:#6C7D74;
+    --accent:#2E7D32;
+    --accent-2:#66BB6A;
+    --accent-3:#1E5226;
+    --nav:#0F3F22;
+    --nav-text:#E6FFF1;
+    --panel:#EEF6F0;
+    --ring:rgba(46,125,50,.22);
+    --shadow:0 8px 24px rgba(0,0,0,.06);
+    --bg-img: url('https://raw.githubusercontent.com/xhemmings/ui_theme_demo/main/4k_background_emerald_moss.png');
+  }
+
+  /* Theme classes (kept consistent with provided gallery) */
+  .t-moss      {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#1E5226;--panel:#EDF5ED;--nav:#11351A;--nav-text:#E8FFF1;--ui-border:#D6E2D6}
+  .t-emerald   {--accent:#1B5E20;--accent-2:#2E7D32;--accent-3:#1B5E20;--panel:#E8F5E9;--nav:#0F3F22;--nav-text:#E6FFF1;--ui-border:#D9EBDD}
+  .t-jade      {--accent:#00A86B;--accent-2:#80D8C0;--accent-3:#007A55;--panel:#E0FBEA;--nav:#05553A;--nav-text:#E3FFF6;--ui-border:#CFEFE2}
+  .t-mint      {--accent:#00BFA5;--accent-2:#009688;--accent-3:#0E6A5B;--panel:#E0F2F1;--nav:#083F36;--nav-text:#E4FFFA;--ui-border:#CFE8E2}
+  .t-malachite {--accent:#1B6530;--accent-2:#388E3C;--accent-3:#145C34;--panel:#E9F7EF;--nav:#0E3A22;--nav-text:#E8FFF1;--ui-border:#D2ECE1}
+  .t-crimson   {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#D32F2F;--panel:#F8FFFC;--nav:#123A22;--nav-text:#EAF7F0;--ui-border:#DCECE2}
+  .t-seaglass  {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#1E88E5;--panel:#F6FFFE;--nav:#0A3D2A;--nav-text:#E7FFFF;--ui-border:#CFE8E7}
+  .t-rose      {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#E91E63;--panel:#FFFAFD;--nav:#3A0F26;--nav-text:#FFE6F0;--ui-border:#E7DCE4}
+  .t-violet    {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#7E57C2;--panel:#FBFAFF;--nav:#271A3C;--nav-text:#EEE9FF;--ui-border:#DCDCF0}
+
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{height:100%;max-width:100%;overflow-x:hidden}
+  body{
+    margin:0;
+    background:
+      var(--bg-img) center/cover no-repeat fixed,
+      linear-gradient(180deg,var(--bg-a),var(--bg-b));
+    color:var(--text);
+    font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  }
+
+  /* layout + spacing */
+  .app{display:grid;grid-template-rows:auto 1fr auto;min-height:100vh}
+  .page{max-width:1100px;margin:24px auto;padding:0 20px}
+  .page-section{margin:26px 0}
+  .paper{background:rgba(255,255,255,.90);border:1px solid var(--ui-border);border-radius:16px;box-shadow:var(--shadow);padding:18px}
+
+  header{background:var(--nav);color:var(--nav-text);box-shadow:var(--shadow)}
+  .nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;max-width:1200px;margin:0 auto;padding:12px 20px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+  .brand .logo{width:28px;height:28px;border-radius:50%;background:var(--accent-3)}
+  .nav-links{display:flex;gap:22px;justify-content:center}
+  .nav-links a{color:var(--nav-text);text-decoration:none;font-weight:700;opacity:.95}
+  .nav-links a:hover{opacity:1;text-decoration:underline}
+  .nav-cta .btn{border:1px solid rgba(255,255,255,.28);background:transparent;color:var(--nav-text);padding:10px 14px;border-radius:10px;cursor:pointer}
+  .nav-cta .btn:hover{background:rgba(255,255,255,.08)}
+
+  h2{margin:2px 0 12px;font-size:20px;line-height:1.2;position:relative;padding-bottom:4px}
+  h2::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:3px;border-radius:2px;background:var(--accent-3)}
+
+  .muted{color:var(--muted)}
+
+  /* ===== THEME GALLERY (from uploaded file) ===== */
+  /* Using the exact class names/structure; placed inside .theme-gallery-wrap to keep spacing only. */
+  .container{max-width:1200px;margin:0 auto}
+  .scroller{position:relative;margin:12px 0 20px}
+  .track{
+    display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;
+    padding:6px 4px 12px;
+    scroll-snap-type:x mandatory;overscroll-behavior-x:contain;min-width:0;
+    scrollbar-width:none;
+  }
+  .track::-webkit-scrollbar{display:none}
+  .track > *{flex:0 0 320px;scroll-snap-align:start}
+
+  .scroll-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:50px;height:50px;border-radius:50%;
+    background:var(--ui-surface);border:1px solid var(--ui-border);
+    box-shadow:var(--shadow);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;color:var(--accent-3);
+    transition:all 0.2s;z-index:10;font-weight:bold;
+  }
+  .scroll-arrow:hover{background:var(--accent-3);color:#fff;transform:translateY(-50%) scale(1.05)}
+  .scroll-arrow.disabled{opacity:.3;cursor:not-allowed}
+  .scroll-arrow.disabled:hover{background:var(--ui-surface);color:var(--accent-3);transform:translateY(-50%)}
+  .scroll-left{left:10px}
+  .scroll-right{right:10px}
+
+  .theme-card{
+    background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);min-width:0;position:relative
+  }
+  .theme-card .title{font-weight:800;padding-right:40px}
+  .swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:6px 0 16px}
+  .sw{height:28px;border-radius:8px;border:1px solid #0001;position:relative;min-width:28px}
+  .sw::after{content:attr(data-role);position:absolute;bottom:-18px;left:0;right:0;font-size:10px;text-align:center;color:var(--muted)}
+  .card-buttons{display:flex;gap:8px;margin-top:6px}
+  .apply-btn{flex:1;background:var(--c-accent-3, var(--accent-3));border:1px solid var(--c-accent-3, var(--accent-3));color:white;padding:10px 14px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:14px;transition:all .2s}
+  .apply-btn:hover{opacity:.96;transform:translateY(-1px)}
+  .copy-btn-top{position:absolute;top:14px;right:14px;width:32px;height:32px;background:var(--ui-surface);border:1px solid var(--ui-border);color:var(--c-accent-3, var(--accent-3));border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;z-index:2;box-shadow:var(--shadow)}
+  .copy-btn-top:hover{background:var(--c-accent-3, var(--accent-3));color:#fff;transform:translateY(-1px)}
+  .copy-btn-top.copied{background:var(--c-accent-3, var(--accent-3));color:#fff}
+
+  /* Arrows hidden until hover */
+  .scroller .scroll-arrow{opacity:0;pointer-events:none;background:transparent;color:transparent;border-color:transparent}
+  .scroller:hover .scroll-arrow{opacity:1;pointer-events:auto;background:var(--ui-surface);color:var(--accent-3);border-color:var(--ui-border)}
+  .scroller:hover .scroll-arrow:hover{background:var(--accent-3);color:#fff}
+
+  /* ===== Reviews ===== */
+  .review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  @media (max-width:980px){.review-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:640px){.review-grid{grid-template-columns:1fr}}
+  .review-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+  .review-card .name{font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .stars{letter-spacing:2px;color:#f7b500}
+  .review-card .cat a{color:var(--accent-3);font-weight:700;text-decoration:none}
+  .review-card .cat a:hover{text-decoration:underline}
+  .trust-row{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:12px;color:#4b5a53}
+  .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ui-border);border-radius:999px;background:var(--ui-surface-2);padding:4px 10px;font-weight:700}
+
+  /* ===== Popular Services grid ===== */
+  .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  @media (max-width:980px){.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:620px){.services-grid{grid-template-columns:1fr}}
+  .service-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+  .hero{width:100%;height:140px;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,#e9eff1,#dae3e7);border:1px solid var(--ui-border)}
+
+  /* ===== Service Gallery scroller (renamed to avoid collision) ===== */
+  .s-scroller{position:relative;margin:12px 0 10px}
+  .s-track{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;padding:6px 4px 12px;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;min-width:0}
+  .s-track::-webkit-scrollbar{height:10px}
+  .s-track::-webkit-scrollbar-track{background:var(--ui-surface-2);border-radius:999px}
+  .s-track::-webkit-scrollbar-thumb{background:var(--accent-3);border-radius:999px;border:2px solid var(--ui-surface-2)}
+  .s-track{scrollbar-color: var(--accent-3) var(--ui-surface-2);scrollbar-width:thin}
+  .s-track > *{flex:0 0 320px;scroll-snap-align:start}
+
+  .row{display:flex;gap:10px;align-items:center}
+  .control{display:block;width:100%;padding:10px 12px;border:1px solid var(--ui-border);border-radius:10px;background:var(--ui-surface-2);color:var(--text)}
+  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--accent-3);background:var(--accent-3);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer}
+  .btn.secondary{background:transparent;color:var(--accent-3)}
+
+  /* ===== Footer ===== */
+  footer{background:#0f1320;color:#d9e1e7;margin-top:28px}
+  .footer-wrap{max-width:1200px;margin:0 auto;padding:30px 20px;display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1.6fr;gap:24px}
+  .footer h4{margin:0 0 10px;font-size:15px;color:#eaf4ff}
+  .footer p{margin:0;color:#a9b6c0}
+  .footer a{color:#a9f0c4;text-decoration:none}
+  .footer a:hover{text-decoration:underline}
+  .foot-meta{border-top:1px solid rgba(255,255,255,.08);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;color:#9fb0b8}
+  .social{display:flex;gap:10px;margin-top:8px}
+  .dot{width:28px;height:28px;border-radius:50%;background:var(--accent-3)}
+
+  @media (max-width:960px){
+    .footer-wrap{grid-template-columns:1fr 1fr;gap:18px}
+  }
+  @media (max-width:620px){
+    .footer-wrap{grid-template-columns:1fr}
+    .foot-meta{flex-direction:column;gap:6px;align-items:flex-start}
+  }
+</style>
+</head>
+<body class="t-moss">
+<div class="app">
+  <header>
+    <nav class="nav" aria-label="Primary">
+      <div class="brand"><div class="logo"></div> Task&nbsp;UI</div>
+      <div class="nav-links">
+        <a href="#">Services</a>
+        <a href="#">My Tasks</a>
+      </div>
+      <div class="nav-cta">
+        <button id="openPostTask" class="btn">Post a Task</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page">
+    <!-- THEME GALLERY (exact structure from uploaded file) -->
+    <section class="page-section paper">
+      <div class="container">
+        <h2>Theme Gallery</h2>
+        <div class="scroller">
+          <button class="scroll-arrow scroll-left" id="scrollLeft">&#8249;</button>
+          <div class="track" id="themeGallery"></div>
+          <button class="scroll-arrow scroll-right" id="scrollRight">&#8250;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="page-section paper">
+      <h2>See what happy customers are saying</h2>
+      <div class="review-grid">
+        <div class="review-card">
+          <div class="name">Elizabeth P. <span class="stars">★★★★★</span></div>
+          <p>Vitalii assembled the Norli drawer chest in under 30 minutes and fixed a drawer on an existing desk. Fast and meticulous.</p>
+          <div class="cat"><a href="#">IKEA Furniture Assembly</a></div>
+        </div>
+        <div class="review-card">
+          <div class="name">Tiffany B. <span class="stars">★★★★★</span></div>
+          <p>David set up the crib and dresser, organized boxes for easy disposal, and walked us through the setup. Spotless cleanup.</p>
+          <div class="cat"><a href="#">Furniture Assembly</a></div>
+        </div>
+        <div class="review-card">
+          <div class="name">Amanda L. <span class="stars">★★★★★</span></div>
+          <p>Joe patched wall/ceiling holes, communicated well, and returned to perfect the finish. Pro work.</p>
+          <div class="cat"><a href="#">Home repairs</a></div>
+        </div>
+        <div class="review-card">
+          <div class="name">Sabrina K. <span class="stars">★★★★★</span></div>
+          <p>Aleksandr arrived fully equipped—hardware included. Hung a heavy chandelier and fixed a cabinet perfectly.</p>
+          <div class="cat"><a href="#">Electrical help</a></div>
+        </div>
+        <div class="review-card">
+          <div class="name">Jana T. <span class="stars">★★★★★</span></div>
+          <p>Jose cleared a clogged AC drain quickly. On time, communicative, efficient. Recommend.</p>
+          <div class="cat"><a href="#">Plumbing</a></div>
+        </div>
+        <div class="review-card">
+          <div class="name">Elisa R. <span class="stars">★★★★★</span></div>
+          <p>Michael installed frameless glass shower doors with a tricky setup. Patient and precise.</p>
+          <div class="cat"><a href="#">General Mounting</a></div>
+        </div>
+      </div>
+      <div class="trust-row">
+        <span>Great</span>
+        <span class="pill">★★★★☆</span>
+        <span>47,417 reviews on</span>
+        <span class="pill">Trustpilot</span>
+      </div>
+    </section>
+
+    <!-- POPULAR SERVICES -->
+    <section class="page-section paper">
+      <h2>Popular Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="hero"></div>
+          <div class="title">Cleaning</div>
+          <div class="muted">Apartments, houses, move‑out</div>
+          <div style="display:flex;gap:10px">
+            <button class="btn secondary">Details</button>
+            <button class="btn">Add</button>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="hero"></div>
+          <div class="title">Furniture Assembly</div>
+          <div class="muted">Desks, beds, shelves</div>
+          <div style="display:flex;gap:10px">
+            <button class="btn secondary">Details</button>
+            <button class="btn">Add</button>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="hero"></div>
+          <div class="title">Home Repairs</div>
+          <div class="muted">Doors, drywall, fixtures</div>
+          <div style="display:flex;gap:10px">
+            <button class="btn secondary">Details</button>
+            <button class="btn">Add</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICE GALLERY -->
+    <section class="page-section paper">
+      <h2>Service Gallery</h2>
+      <div class="s-scroller">
+        <div class="s-track">
+          <div class="service-card">
+            <div class="hero"></div>
+            <div class="title">Deep Clean (2 hrs)</div>
+            <div class="row">
+              <select class="control"><option>1 hr</option><option selected>2 hrs</option><option>3 hrs</option></select>
+              <button class="btn">Add</button>
+              <button class="btn">Book</button>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="hero"></div>
+            <div class="title">Furniture Assembly</div>
+            <div class="row">
+              <select class="control"><option>1 hr</option><option>2 hrs</option><option selected>3 hrs</option></select>
+              <button class="btn">Add</button>
+              <button class="btn">Book</button>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="hero"></div>
+            <div class="title">Yard Work</div>
+            <div class="row">
+              <select class="control"><option selected>1 hr</option><option>2 hrs</option><option>3 hrs</option></select>
+              <button class="btn">Add</button>
+              <button class="btn">Book</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-wrap">
+      <div>
+        <h4>Dox Services</h4>
+        <p>Driving digital transformation through AI, BI, and practical execution.</p>
+        <div class="social">
+          <div class="dot" title="LinkedIn"></div>
+          <div class="dot" title="Twitter"></div>
+          <div class="dot" title="Facebook"></div>
+          <div class="dot" title="Instagram"></div>
+        </div>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <p><a href="#">Artificial Intelligence</a></p>
+        <p><a href="#">Business Intelligence</a></p>
+        <p><a href="#">Digital Marketing</a></p>
+        <p><a href="#">SEO Optimization</a></p>
+        <p><a href="#">Data Analytics</a></p>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <p><a href="#">About Us</a></p>
+        <p><a href="#">Careers</a></p>
+        <p><a href="#">Case Studies</a></p>
+        <p><a href="#">Blog</a></p>
+        <p><a href="#">Contact</a></p>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <p>123 Tech Avenue, San Francisco, CA</p>
+        <p>+1 (555) 123‑4567</p>
+        <p><a href="mailto:info@doxservices.com">info@doxservices.com</a></p>
+      </div>
+    </div>
+    <div class="foot-meta">
+      <div>© Dox Services 2025 — All rights reserved.</div>
+      <div>doxservices.com</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const body = document.body;
+  const THEME_CLASSES = ['t-moss','t-emerald','t-jade','t-mint','t-malachite','t-crimson','t-seaglass','t-rose','t-violet'];
+  function setTheme(themeClass){
+    THEME_CLASSES.forEach(c => body.classList.remove(c));
+    body.classList.add(themeClass);
+  }
+
+  // ===== Theme Gallery JS — copied from uploaded file =====
+  const THEMES = [
+    {name:'Moss',         key:'t-moss',      accent:'#2E7D32', accent2:'#4CAF50', accent3:'#1E5226', panel:'#EDF5ED', border:'#D6E2D6', nav:'#11351A'},
+    {name:'Emerald',      key:'t-emerald',   accent:'#1B5E20', accent2:'#2E7D32', accent3:'#1B5E20', panel:'#E8F5E9', border:'#D9EBDD', nav:'#0F3F22'},
+    {name:'Jade',         key:'t-jade',      accent:'#00A86B', accent2:'#80D8C0', accent3:'#007A55', panel:'#E0FBEA', border:'#CFEFE2', nav:'#05553A'},
+    {name:'Mint Chrome',  key:'t-mint',      accent:'#00BFA5', accent2:'#009688', accent3:'#0E6A5B', panel:'#E0F2F1', border:'#CFE8E2', nav:'#083F36'},
+    {name:'Malachite',    key:'t-malachite', accent:'#1B6530', accent2:'#388E3C', accent3:'#145C34', panel:'#E9F7EF', border:'#D2ECE1', nav:'#0E3A22'},
+    {name:'Emerald + Crimson', key:'t-crimson', accent:'#2E7D32', accent2:'#4CAF50', accent3:'#D32F2F', panel:'#F8FFFC', border:'#DCECE2', nav:'#123A22'},
+    {name:'Seaglass',     key:'t-seaglass',  accent:'#2E7D32', accent2:'#4CAF50', accent3:'#1E88E5', panel:'#F6FFFE', border:'#CFE8E7', nav:'#0A3D2A'},
+    {name:'Rose Mint',    key:'t-rose',      accent:'#2E7D32', accent2:'#4CAF50', accent3:'#E91E63', panel:'#FFFAFD', border:'#E7DCE4', nav:'#3A0F26'},
+    {name:'Sage Violet',  key:'t-violet',    accent:'#2E7D32', accent2:'#4CAF50', accent3:'#7E57C2', panel:'#FBFAFF', border:'#DCDCF0', nav:'#271A3C'}
+  ];
+  const gallery = document.getElementById('themeGallery');
+  const scrollLeft = document.getElementById('scrollLeft');
+  const scrollRight = document.getElementById('scrollRight');
+
+  function hexToRgb(hex){
+    hex = hex.replace(/^#/, '');
+    let r,g,b;
+    if(hex.length===3){ r=parseInt(hex[0]+hex[0],16); g=parseInt(hex[1]+hex[1],16); b=parseInt(hex[2]+hex[2],16); }
+    else if(hex.length===6){ r=parseInt(hex.substring(0,2),16); g=parseInt(hex.substring(2,4),16); b=parseInt(hex.substring(4,6),16); }
+    else { return 'rgb(0, 0, 0)'; }
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function cardTemplate(t){
+    const el = document.createElement('div');
+    el.className='theme-card';
+    el.setAttribute('data-theme',t.key);
+    el.setAttribute('data-name',t.name);
+    el.style.setProperty('--c-accent-3', t.accent3);
+    el.innerHTML=`
+      <div class="title">${t.name}</div>
+      <button class="copy-btn-top" title="Copy theme palette">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 8V5C16 3.89543 15.1046 3 14 3H5C3.89543 3 3 3.89543 3 5V14C3 15.1046 3.89543 16 5 16H8M10 19H19C20.1046 19 21 18.1046 21 17V8C21 6.89543 20.1046 6 19 6H10C8.89543 6 8 6.89543 8 8V17C8 18.1046 8.89543 19 10 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="swatches">
+        <div class="sw" data-role="Accent"  style="background:${t.accent}"></div>
+        <div class="sw" data-role="Accent2" style="background:${t.accent2}"></div>
+        <div class="sw" data-role="Accent3" style="background:${t.accent3}"></div>
+        <div class="sw" data-role="Panel"   style="background:${t.panel}"></div>
+        <div class="sw" data-role="Border"  style="background:${t.border}"></div>
+        <div class="sw" data-role="Nav"     style="background:${t.nav}"></div>
+      </div>
+      <div class="card-buttons">
+        <button class="apply-btn">Apply</button>
+      </div>`;
+    el.querySelector('.apply-btn').addEventListener('click',()=>setTheme(t.key));
+    el.querySelector('.copy-btn-top').addEventListener('click',async()=>{await copyCardToClipboard(el,t)});
+    return el;
+  }
+
+  function renderGallery(){
+    gallery.innerHTML='';
+    THEMES.forEach(t=>gallery.appendChild(cardTemplate(t)));
+    updateScrollButtons();
+  }
+  function updateScrollButtons(){
+    const isAtStart = gallery.scrollLeft <= 0;
+    const isAtEnd = gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth - 1;
+    scrollLeft.classList.toggle('disabled', isAtStart);
+    scrollRight.classList.toggle('disabled', isAtEnd);
+  }
+  function scrollToDirection(direction){
+    const cardWidth = 320 + 14;
+    const scrollAmount = cardWidth * 2;
+    if(direction==='left'){ gallery.scrollBy({left:-scrollAmount,behavior:'smooth'}); }
+    else { gallery.scrollBy({left:scrollAmount,behavior:'smooth'}); }
+  }
+  gallery.addEventListener('scroll', updateScrollButtons);
+  scrollLeft.addEventListener('click', ()=>{ if(!scrollLeft.classList.contains('disabled')) scrollToDirection('left'); });
+  scrollRight.addEventListener('click', ()=>{ if(!scrollRight.classList.contains('disabled')) scrollToDirection('right'); });
+  renderGallery();
+
+  async function copyCardToClipboard(cardElement, themeData){
+    try{
+      const canvas=document.createElement('canvas'); const ctx=canvas.getContext('2d');
+      const scale=2, sw=120, sh=80, th=60, pad=20;
+      canvas.width=(sw*6+pad*7)*scale; canvas.height=(sh+th+pad*3)*scale; ctx.scale(scale,scale);
+      const W=canvas.width/scale, H=canvas.height/scale;
+      ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='#222'; ctx.font='bold 16px system-ui'; ctx.textAlign='center'; ctx.fillText(`${themeData.name} Color Palette`, W/2, 25);
+      const colors=[
+        {color:themeData.accent,name:'Accent'},
+        {color:themeData.accent2,name:'Accent2'},
+        {color:themeData.accent3,name:'Accent3'},
+        {color:themeData.panel,name:'Panel'},
+        {color:themeData.border,name:'Border'},
+        {color:themeData.nav,name:'Nav'}
+      ];
+      for(let i=0;i<6;i++){
+        const x=pad+(sw+pad)*i, y=pad*2;
+        ctx.fillStyle=colors[i].color; ctx.fillRect(x,y,sw,sh);
+        ctx.strokeStyle='#E2E2E2'; ctx.lineWidth=1; ctx.strokeRect(x,y,sw,sh);
+        ctx.fillStyle='#333'; ctx.font='bold 12px system-ui'; ctx.fillText(colors[i].name, x+sw/2, y+sh+15);
+        ctx.fillStyle='#666'; ctx.font='11px monospace'; ctx.fillText(colors[i].color.toUpperCase(), x+sw/2, y+sh+30);
+        ctx.fillStyle='#888'; ctx.font='10px monospace'; ctx.fillText(hexToRgb(colors[i].color), x+sw/2, y+sh+45);
+      }
+      canvas.toBlob(async (blob)=>{
+        try{
+          await navigator.clipboard.write([ new ClipboardItem({ 'image/png': blob }) ]);
+          const btn=cardElement.querySelector('.copy-btn-top');
+          btn.classList.add('copied');
+          btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          setTimeout(()=>{ btn.classList.remove('copied'); btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8V5C16 3.89543 15.1046 3 14 3H5C3.89543 3 3 3.89543 3 5V14C3 15.1046 3.89543 16 5 16H8M10 19H19C20.1046 19 21 18.1046 21 17V8C21 6.89543 20.1046 6 19 6H10C8.89543 6 8 6.89543 8 8V17C8 18.1046 8.89543 19 10 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }, 1500);
+        }catch(err){
+          const textData=`${themeData.name} Color Palette:\nAccent: ${themeData.accent} (${hexToRgb(themeData.accent)})\nAccent2: ${themeData.accent2} (${hexToRgb(themeData.accent2)})\nAccent3: ${themeData.accent3} (${hexToRgb(themeData.accent3)})\nPanel: ${themeData.panel} (${hexToRgb(themeData.panel)})\nBorder: ${themeData.border} (${hexToRgb(themeData.border)})\nNav: ${themeData.nav} (${hexToRgb(themeData.nav)})`;
+          await navigator.clipboard.writeText(textData);
+        }
+      }, 'image/png');
+    }catch(err){ console.error('Copy failed:', err); }
+  }
+</script>
+</body>
+</html>
