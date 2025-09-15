@@ -1,479 +1,1770 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Task UI · Theme Gallery (Patched) + Spacing</title>
-<style>
-  :root {
-    --bg-a:#FAFCFB;
-    --bg-b:#F3F7F4;
-    --ui-surface:#FFFFFF;
-    --ui-surface-2:#F4F7F5;
-    --ui-border:#E2EAE5;
-    --text:#1f2623;
-    --muted:#6C7D74;
-    --accent:#2E7D32;
-    --accent-2:#66BB6A;
-    --accent-3:#1E5226;
-    --nav:#0F3F22;
-    --nav-text:#E6FFF1;
-    --panel:#EEF6F0;
-    --ring:rgba(46,125,50,.22);
-    --shadow:0 8px 24px rgba(0,0,0,.06);
-    --bg-img: url('https://raw.githubusercontent.com/xhemmings/ui_theme_demo/main/4k_background_emerald_moss.png');
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UX Theme Demo</title>
+  <style>
+    /* --------------------------------------------------
+       Root variables and theme palettes
+       -------------------------------------------------- */
+    :root {
+      --bg-a: #FAFCFB;
+      --bg-b: #F3F7F4;
+      --ui-surface: #FFFFFF;
+      --ui-surface-2: #F4F7F5;
+      --ui-border: #E2EAE5;
+      --text: #1f2623;
+      --muted: #6C7D74;
+      --accent: #2E7D32;
+      --accent-2: #66BB6A;
+      --accent-3: #1E5226;
+      --nav: #0F3F22;
+      --nav-text: #E6FFF1;
+      --panel: #EEF6F0;
+      --shadow: 0 8px 24px rgba(0,0,0,.06);
+      /* fallback hero gradient colours */
+      --hero-start: var(--accent-3);
+      --hero-end: var(--accent);
+    /* global copy colour fallback */
+    --copy-color-default: var(--accent-3);
+    }
 
-  /* Theme classes (kept consistent with provided gallery) */
-  .t-moss      {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#1E5226;--panel:#EDF5ED;--nav:#11351A;--nav-text:#E8FFF1;--ui-border:#D6E2D6}
-  .t-emerald   {--accent:#1B5E20;--accent-2:#2E7D32;--accent-3:#1B5E20;--panel:#E8F5E9;--nav:#0F3F22;--nav-text:#E6FFF1;--ui-border:#D9EBDD}
-  .t-jade      {--accent:#00A86B;--accent-2:#80D8C0;--accent-3:#007A55;--panel:#E0FBEA;--nav:#05553A;--nav-text:#E3FFF6;--ui-border:#CFEFE2}
-  .t-mint      {--accent:#00BFA5;--accent-2:#009688;--accent-3:#0E6A5B;--panel:#E0F2F1;--nav:#083F36;--nav-text:#E4FFFA;--ui-border:#CFE8E2}
-  .t-malachite {--accent:#1B6530;--accent-2:#388E3C;--accent-3:#145C34;--panel:#E9F7EF;--nav:#0E3A22;--nav-text:#E8FFF1;--ui-border:#D2ECE1}
-  .t-crimson   {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#D32F2F;--panel:#F8FFFC;--nav:#123A22;--nav-text:#EAF7F0;--ui-border:#DCECE2}
-  .t-seaglass  {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#1E88E5;--panel:#F6FFFE;--nav:#0A3D2A;--nav-text:#E7FFFF;--ui-border:#CFE8E7}
-  .t-rose      {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#E91E63;--panel:#FFFAFD;--nav:#3A0F26;--nav-text:#FFE6F0;--ui-border:#E7DCE4}
-  .t-violet    {--accent:#2E7D32;--accent-2:#4CAF50;--accent-3:#7E57C2;--panel:#FBFAFF;--nav:#271A3C;--nav-text:#EEE9FF;--ui-border:#DCDCF0}
+    /* Live theme classes – these override root vars */
+    .t-moss      { --accent: #2E7D32; --accent-2: #4CAF50; --accent-3: #1E5226; --panel: #EDF5ED; --nav: #11351A; --nav-text: #FFFFFF; --ui-border: #D6E2D6; }
+    .t-emerald   { --accent: #1B5E20; --accent-2: #2E7D32; --accent-3: #1B5E20; --panel: #E8F5E9; --nav: #0F3F22; --nav-text: #FFFFFF; --ui-border: #D9EBDD; }
+    .t-jade      { --accent: #00A86B; --accent-2: #80D8C0; --accent-3: #007A55; --panel: #E0FBEA; --nav: #05553A; --nav-text: #FFFFFF; --ui-border: #CFEFE2; }
+    .t-mint      { --accent: #00BFA5; --accent-2: #009688; --accent-3: #0E6A5B; --panel: #E0F2F1; --nav: #083F36; --nav-text: #FFFFFF; --ui-border: #CFE8E2; }
+    .t-malachite { --accent: #1B6530; --accent-2: #388E3C; --accent-3: #145C34; --panel: #E9F7EF; --nav: #0E3A22; --nav-text: #FFFFFF; --ui-border: #D2ECE1; }
+    .t-crimson   { --accent: #2E7D32; --accent-2: #4CAF50; --accent-3: #D32F2F; --panel: #F8FFFC; --nav: #123A22; --nav-text: #FFFFFF; --ui-border: #DCECE2; }
+    .t-seaglass  { --accent: #2E7D32; --accent-2: #4CAF50; --accent-3: #1E88E5; --panel: #F6FFFE; --nav: #0A3D2A; --nav-text: #FFFFFF; --ui-border: #CFE8E7; }
+    .t-rose      { --accent: #2E7D32; --accent-2: #4CAF50; --accent-3: #E91E63; --panel: #FFFAFD; --nav: #3A0F26; --nav-text: #FFFFFF; --ui-border: #E7DCE4; }
+    .t-violet    { --accent: #2E7D32; --accent-2: #4CAF50; --accent-3: #7E57C2; --panel: #FBFAFF; --nav: #271A3C; --nav-text: #FFFFFF; --ui-border: #DCDCF0; }
+    /* Extra themes pulled from patch */
+    .t-emerald-moss  { --accent: #23a36d; --accent-2: #9fe1c0; --accent-3: #17694a; --panel: #ffffff; --nav: #0B1B14; --nav-text: #FFFFFF; --ui-border: #e7f4ee; }
+    .t-forest-night  { --accent: #1f6d4c; --accent-2: #8fd7b9; --accent-3: #123523; --panel: #ffffff; --nav: #09120e; --nav-text: #FFFFFF; --ui-border: #e5f2ec; }
+    .t-mint-breeze   { --accent: #7bdfb6; --accent-2: #bff2dc; --accent-3: #2b9b6d; --panel: #f6fffb; --nav: #15533a; --nav-text: #FFFFFF; --ui-border: #e3fbf1; }
+    .t-moss-stone    { --accent: #3f8c66; --accent-2: #dfe7e2; --accent-3: #2c5a44; --panel: #f8fbfa; --nav: #1b3b2d; --nav-text: #FFFFFF; --ui-border: #cbd3ce; }
+    .t-cedar-grove   { --accent: #6d977f; --accent-2: #315c47; --accent-3: #d3c6b8; --panel: #f2ede5; --nav: #1b3a2b; --nav-text: #FFFFFF; --ui-border: #b2987f; }
+    .t-sea-foam      { --accent: #2f8e87; --accent-2: #9be2db; --accent-3: #1e5a56; --panel: #e9fbfa; --nav: #0f2d2c; --nav-text: #FFFFFF; --ui-border: #ffffff; }
+    .t-lime-quartz   { --accent: #36a65f; --accent-2: #c0ffd7; --accent-3: #24352e; --panel: #f2fff8; --nav: #0b1411; --nav-text: #FFFFFF; --ui-border: #ddeee6; }
 
-  *,*::before,*::after{box-sizing:border-box}
-  html,body{height:100%;max-width:100%;overflow-x:hidden}
-  body{
-    margin:0;
-    background:
-      var(--bg-img) center/cover no-repeat fixed,
-      linear-gradient(180deg,var(--bg-a),var(--bg-b));
-    color:var(--text);
-    font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-  }
+    *,*::before,*::after { box-sizing: border-box; }
+    html, body { height: 100%; max-width: 100%; overflow-x: hidden; }
+body {
+      margin: 0;
+      /* default gradient; pattern toggled via .bg-on */
+      background: linear-gradient(180deg, var(--bg-a), var(--bg-b));
+      color: var(--text);
+      font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
 
-  /* layout + spacing */
-  .app{display:grid;grid-template-rows:auto 1fr auto;min-height:100vh}
-  .page{max-width:1100px;margin:24px auto;padding:0 20px}
-  .page-section{margin:26px 0}
-  .paper{background:rgba(255,255,255,.90);border:1px solid var(--ui-border);border-radius:16px;box-shadow:var(--shadow);padding:18px}
+    /* patterned background (subtle shapes) for when background toggle is on */
+    body.bg-on { background-image: url('https://raw.githubusercontent.com/xhemmings/ui_theme_demo/main/4k_background_emerald_moss.png'); background-size: cover; background-position: center; background-attachment: fixed; }
 
-  header{background:var(--nav);color:var(--nav-text);box-shadow:var(--shadow)}
-  .nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;max-width:1200px;margin:0 auto;padding:12px 20px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800}
-  .brand .logo{width:28px;height:28px;border-radius:50%;background:var(--accent-3)}
-  .nav-links{display:flex;gap:22px;justify-content:center}
-  .nav-links a{color:var(--nav-text);text-decoration:none;font-weight:700;opacity:.95}
-  .nav-links a:hover{opacity:1;text-decoration:underline}
-  .nav-cta .btn{border:1px solid rgba(255,255,255,.28);background:transparent;color:var(--nav-text);padding:10px 14px;border-radius:10px;cursor:pointer}
-  .nav-cta .btn:hover{background:rgba(255,255,255,.08)}
+    /*
+      Very light gradient backgrounds derived from the palette when gradients are enabled.  The body uses
+      a subtle gradient between the panel and border colours; section papers use a slightly stronger gradient
+      blending the panel with accent-2.  These rules apply only when gradients are ON and the background
+      pattern is not enabled (bg-on is off).
+    */
+    body:not(.no-gradients):not(.bg-on) {
+      background: linear-gradient(180deg, var(--panel), var(--border));
+    }
+    body:not(.no-gradients) .paper {
+      background: linear-gradient(180deg, var(--panel), var(--accent-2));
+    }
+    /*
+      When frost is enabled (frost-on) or blur-on, the section papers become frosted; a translucent
+      white background provides a soft, blurred feel on top of the tinted frost overlay.
+    */
+body.frost-on .paper,
+body.blur-on .paper {
+      /* Increase the transparency of frost overlays on section papers so that cards stand out more. Further lighten for clarity. */
+      background: rgba(255, 255, 255, 0.98);
+    }
+    .app { display: grid; grid-template-rows: auto 1fr auto; min-height: 100vh; position: relative; z-index: 1; isolation: isolate; }
+    .page { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    /* Section container (Popular Services, Service Gallery, Quick Tasks) uses a light frosted background and accent-3 border by default.
+       The border can be toggled off via the Section Borders control (see body.no-section-border below). */
+    .paper { background: rgba(255,255,255,0.90); border: 1px solid var(--accent-3); border-radius: 16px; box-shadow: var(--shadow); padding: 18px; margin: 26px 0; }
 
-  h2{margin:2px 0 12px;font-size:20px;line-height:1.2;position:relative;padding-bottom:4px}
-  h2::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:3px;border-radius:2px;background:var(--accent-3)}
+    /* When the Section BG toggle is off (body.no-section-bg), remove the background and shadows so the section blends with the page.
+       We still keep the border unless also toggled off via Section Borders. */
+    body.no-section-bg .paper {
+      background: transparent;
+      box-shadow: none;
+    }
 
-  .muted{color:var(--muted)}
+    /* When the Section Borders toggle is off (body.no-section-border), hide the border around sections. */
+    body.no-section-border .paper {
+      border: none;
+      /* Remove any box shadow so the section fully blends into the page when borders are disabled */
+      box-shadow: none;
+    }
 
-  /* ===== THEME GALLERY (from uploaded file) ===== */
-  /* Using the exact class names/structure; placed inside .theme-gallery-wrap to keep spacing only. */
-  .container{max-width:1200px;margin:0 auto}
-  .scroller{position:relative;margin:12px 0 20px}
-  .track{
-    display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;
-    padding:6px 4px 12px;
-    scroll-snap-type:x mandatory;overscroll-behavior-x:contain;min-width:0;
-    scrollbar-width:none;
-  }
-  .track::-webkit-scrollbar{display:none}
-  .track > *{flex:0 0 320px;scroll-snap-align:start}
+    /* Header and navigation */
+    header { background: var(--nav); color: var(--nav-text); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 10; transition: transform 0.3s ease; }
+/*
+  When the nav should hide (user has scrolled away from the top and the nav
+  isn't pinned), we slide the header up out of view.  Using a transform
+  allows the transition defined on the header itself to animate the
+  movement smoothly.  We intentionally avoid setting display:none here so
+  that the height is preserved and the slide animation can be seen.
+*/
+body.nav-hidden header {
+  transform: translateY(-100%);
+}
+    /*
+      Revised navigation styles for greater breathing room.  We enlarge the nav padding,
+      increase spacing between items and buttons, and slightly bump the font size
+      and border radii to achieve a broader, airier look reminiscent of migratemate.co.
+    */
+    nav.nav {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 28px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 22px 32px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      /* use a lighter weight for a more professional feel */
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+    }
+    .brand .logo { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-3); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+    }
+    .nav-links a {
+      color: var(--nav-text);
+      text-decoration: none;
+      /* reduce weight on nav links to avoid shouting */
+      font-weight: 500;
+      font-size: 16px;
+      opacity: 0.94;
+      transition: opacity 0.2s, text-decoration 0.2s;
+    }
+    .nav-links a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .nav-cta {
+      display: flex;
+      gap: 18px;
+    }
+    .nav-cta .btn {
+      border: none;
+      background: transparent;
+      color: var(--nav-text);
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .nav-cta .btn:hover {
+      background: rgba(255,255,255,0.12);
+    }
 
-  .scroll-arrow{
-    position:absolute;top:50%;transform:translateY(-50%);
-    width:50px;height:50px;border-radius:50%;
-    background:var(--ui-surface);border:1px solid var(--ui-border);
-    box-shadow:var(--shadow);cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    font-size:24px;color:var(--accent-3);
-    transition:all 0.2s;z-index:10;font-weight:bold;
-  }
-  .scroll-arrow:hover{background:var(--accent-3);color:#fff;transform:translateY(-50%) scale(1.05)}
-  .scroll-arrow.disabled{opacity:.3;cursor:not-allowed}
-  .scroll-arrow.disabled:hover{background:var(--ui-surface);color:var(--accent-3);transform:translateY(-50%)}
-  .scroll-left{left:10px}
-  .scroll-right{right:10px}
+    /* Search bar */
+    .search { margin-top: 24px; margin-bottom: 12px; }
+    .search input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid var(--accent-3);
+      border-radius: 12px;
+      background: var(--ui-surface-2);
+      font-size: 16px;
+      color: var(--text);
+      outline: none;
+    }
+    .search input::placeholder { color: var(--muted); }
 
-  .theme-card{
-    background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);min-width:0;position:relative
-  }
-  .theme-card .title{font-weight:800;padding-right:40px}
-  .swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:6px 0 16px}
-  .sw{height:28px;border-radius:8px;border:1px solid #0001;position:relative;min-width:28px}
-  .sw::after{content:attr(data-role);position:absolute;bottom:-18px;left:0;right:0;font-size:10px;text-align:center;color:var(--muted)}
-  .card-buttons{display:flex;gap:8px;margin-top:6px}
-  .apply-btn{flex:1;background:var(--c-accent-3, var(--accent-3));border:1px solid var(--c-accent-3, var(--accent-3));color:white;padding:10px 14px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:14px;transition:all .2s}
-  .apply-btn:hover{opacity:.96;transform:translateY(-1px)}
-  .copy-btn-top{position:absolute;top:14px;right:14px;width:32px;height:32px;background:var(--ui-surface);border:1px solid var(--ui-border);color:var(--c-accent-3, var(--accent-3));border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;z-index:2;box-shadow:var(--shadow)}
-  .copy-btn-top:hover{background:var(--c-accent-3, var(--accent-3));color:#fff;transform:translateY(-1px)}
-  .copy-btn-top.copied{background:var(--c-accent-3, var(--accent-3));color:#fff}
+    /* Title bar with toggles */
+    .titlebar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; }
+    .titlebar h2 { margin: 0; font-size: 22px; position: relative; padding-bottom: 4px; }
+    .titlebar h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 64px; height: 3px; border-radius: 2px; background: var(--accent-3); }
+    .gctl { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    /* Individual control group: label + toggle */
+    .control { display: flex; align-items: center; gap: 6px; }
+    .control span { font-size: 14px; font-weight: 600; color: var(--muted); }
 
-  /* Arrows hidden until hover */
-  .scroller .scroll-arrow{opacity:0;pointer-events:none;background:transparent;color:transparent;border-color:transparent}
-  .scroller:hover .scroll-arrow{opacity:1;pointer-events:auto;background:var(--ui-surface);color:var(--accent-3);border-color:var(--ui-border)}
-  .scroller:hover .scroll-arrow:hover{background:var(--accent-3);color:#fff}
+    /* macOS-style toggle */
+    .g-toggle { position: relative; width: 50px; height: 28px; background: transparent; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; }
+    .g-toggle input { opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
+    .g-toggle .rail { position: relative; width: 100%; height: 100%; border-radius: 999px; background: #e1e1e1; overflow: hidden; transition: all 0.3s ease; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
+    .g-toggle .knob { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.25); transition: transform 0.3s cubic-bezier(0.45, 1.1, 0.6, 1.32); z-index: 1; }
+    .g-toggle.on .rail { background: var(--accent-3); }
+    .g-toggle.on .knob { transform: translateX(20px); }
 
-  /* ===== Reviews ===== */
-  .review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-  @media (max-width:980px){.review-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media (max-width:640px){.review-grid{grid-template-columns:1fr}}
-  .review-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
-  .review-card .name{font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-  .stars{letter-spacing:2px;color:#f7b500}
-  .review-card .cat a{color:var(--accent-3);font-weight:700;text-decoration:none}
-  .review-card .cat a:hover{text-decoration:underline}
-  .trust-row{display:flex;align-items:center;gap:10px;justify-content:center;margin-top:12px;color:#4b5a53}
-  .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ui-border);border-radius:999px;background:var(--ui-surface-2);padding:4px 10px;font-weight:700}
+    /* Theme gallery scroller */
+    .theme-zone { position: relative; margin: 12px 0 20px; }
+    .scroller { position: relative; }
+    .scroll-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; border-radius: 50%; background: var(--ui-surface); border: 1px solid var(--ui-border); box-shadow: var(--shadow); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--accent-3); transition: all 0.2s; z-index: 3; }
+    .scroll-arrow:hover { background: var(--accent-3); color: #fff; transform: translateY(-50%) scale(1.05); }
+    .scroll-arrow.disabled { opacity: 0.3; cursor: not-allowed; }
+    .scroll-arrow.scroll-left { left: 10px; }
+    .scroll-arrow.scroll-right { right: 10px; }
+    .track { display: flex; gap: 14px; overflow-x: auto; overflow-y: hidden; padding: 6px 4px 12px; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; min-width: 0; }
+    .track::-webkit-scrollbar { height: 10px; }
+    .track::-webkit-scrollbar-track { background: var(--ui-surface-2); border-radius: 999px; }
+    .track::-webkit-scrollbar-thumb { background: var(--accent-3); border-radius: 999px; border: 2px solid var(--ui-surface-2); }
+    .track > * { flex: 0 0 320px; scroll-snap-align: start; }
 
-  /* ===== Popular Services grid ===== */
-  .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-  @media (max-width:980px){.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media (max-width:620px){.services-grid{grid-template-columns:1fr}}
-  .service-card{background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
-  .hero{width:100%;height:140px;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,#e9eff1,#dae3e7);border:1px solid var(--ui-border)}
+    /* Theme card */
+    .theme-card {
+      background: var(--ui-surface);
+      /* Use accent-3 borders on all cards to help them stand out against the frosted backgrounds */
+      border: 1px solid var(--accent-3);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .theme-card .hero { width: 100%; height: 120px; background-image: linear-gradient(135deg, var(--hero-start), var(--hero-end)); border-bottom: 1px solid var(--ui-border); }
+    .title-row { display: flex; align-items: center; gap: 8px; padding: 12px; }
+    .title-row .title { flex: 1; font-weight: 800; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .copy-btn {
+      /* enlarge copy button for better tap target */
+      width: 32px;
+      height: 32px;
+      background: var(--ui-surface-2);
+      border: 1px solid var(--ui-border);
+      /* use custom property for colour so each card can override */
+      color: var(--copy-color, var(--copy-color-default));
+      border-color: var(--copy-color, var(--copy-color-default));
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      background: var(--copy-color, var(--copy-color-default));
+      color: #fff;
+    }
+    .copy-btn.copied {
+      background: var(--copy-color, var(--copy-color-default));
+      color: #fff;
+    }
+    .swatches { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; padding: 0 12px 16px; }
+    .sw { height: 28px; border-radius: 8px; border: 1px solid #0001; position: relative; min-width: 28px; }
+    .sw::after { content: attr(data-role); position: absolute; bottom: -18px; left: 0; right: 0; font-size: 10px; text-align: center; color: var(--muted); }
+    .apply-btn {
+      flex: 1;
+      /* add breathing room above and below */
+      /* give more breathing room above and below */
+      margin: 12px 12px 16px;
+      background: var(--accent-3);
+      border: none;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .apply-btn:hover { opacity: 0.96; transform: translateY(-1px); }
 
-  /* ===== Service Gallery scroller (renamed to avoid collision) ===== */
-  .s-scroller{position:relative;margin:12px 0 10px}
-  .s-track{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;padding:6px 4px 12px;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;min-width:0}
-  .s-track::-webkit-scrollbar{height:10px}
-  .s-track::-webkit-scrollbar-track{background:var(--ui-surface-2);border-radius:999px}
-  .s-track::-webkit-scrollbar-thumb{background:var(--accent-3);border-radius:999px;border:2px solid var(--ui-surface-2)}
-  .s-track{scrollbar-color: var(--accent-3) var(--ui-surface-2);scrollbar-width:thin}
-  .s-track > *{flex:0 0 320px;scroll-snap-align:start}
+    /* Services grid */
+    .services-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+    @media (max-width: 980px) { .services-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 640px) { .services-grid { grid-template-columns: 1fr; } }
+    .service-card {
+      background: var(--ui-surface);
+      /* Use neutral border by default; accent borders are applied via section/card border toggles */
+      border: 1px solid var(--ui-border);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .service-card .hero {
+      width: 100%;
+      height: 140px;
+      border-radius: 10px;
+      overflow: hidden;
+      /* hero uses current theme accent colours */
+      background: linear-gradient(135deg, var(--accent-3), var(--accent));
+      border: 1px solid var(--ui-border);
+    }
+    /* When gradients are off globally, service card hero uses solid accent colour */
+    body.no-gradients .service-card .hero {
+      background: var(--accent);
+    }
+    .service-card .title { font-weight: 800; }
+    .service-card .muted { color: var(--muted); font-size: 14px; }
+    .service-card .row { display: flex; gap: 10px; margin-top: auto; }
+    .service-card .btn { flex: 1; background: var(--accent-3); border: none; color: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; font-family: inherit; }
+    .service-card .btn.secondary { background: var(--ui-surface-2); color: var(--text); border: 1px solid var(--ui-border); }
+    .service-card .btn:hover { opacity: 0.96; }
+    .service-card .btn.secondary:hover { background: var(--ui-surface); }
 
-  .row{display:flex;gap:10px;align-items:center}
-  .control{display:block;width:100%;padding:10px 12px;border:1px solid var(--ui-border);border-radius:10px;background:var(--ui-surface-2);color:var(--text)}
-  .btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--accent-3);background:var(--accent-3);color:#fff;padding:10px 14px;border-radius:10px;cursor:pointer}
-  .btn.secondary{background:transparent;color:var(--accent-3)}
+    /* Chips container for price and category */
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 4px 0;
+    }
+    .chip {
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--ui-border);
+      background: var(--ui-surface-2);
+      color: var(--text);
+      white-space: nowrap;
+    }
 
-  /* ===== Footer ===== */
-  footer{background:#0f1320;color:#d9e1e7;margin-top:28px}
-  .footer-wrap{max-width:1200px;margin:0 auto;padding:30px 20px;display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1.6fr;gap:24px}
-  .footer h4{margin:0 0 10px;font-size:15px;color:#eaf4ff}
-  .footer p{margin:0;color:#a9b6c0}
-  .footer a{color:#a9f0c4;text-decoration:none}
-  .footer a:hover{text-decoration:underline}
-  .foot-meta{border-top:1px solid rgba(255,255,255,.08);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;color:#9fb0b8}
-  .social{display:flex;gap:10px;margin-top:8px}
-  .dot{width:28px;height:28px;border-radius:50%;background:var(--accent-3)}
+    /* Section header and link for service sections */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .section-header .section-link {
+      font-size: 14px;
+      color: var(--accent-3);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .section-header .section-link:hover {
+      text-decoration: underline;
+    }
 
-  @media (max-width:960px){
-    .footer-wrap{grid-template-columns:1fr 1fr;gap:18px}
-  }
-  @media (max-width:620px){
-    .footer-wrap{grid-template-columns:1fr}
-    .foot-meta{flex-direction:column;gap:6px;align-items:flex-start}
-  }
+    /* Review cards */
+    .reviews { margin: 32px 0; }
+    .review-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+    @media (max-width: 980px) { .review-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+    @media (max-width: 640px) { .review-grid { grid-template-columns: 1fr; } }
+    .review-card {
+      background: var(--ui-surface);
+      /* neutral border by default */
+      border: 1px solid var(--ui-border);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+    .review-card .name { font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .stars { letter-spacing: 2px; color: #f7b500; }
+    .review-card .muted { color: var(--muted); }
+    .review-card .cat a { color: var(--accent-3); font-weight: 700; text-decoration: none; }
+    .review-card .cat a:hover { text-decoration: underline; }
+
+    /* Task grid for optional quick tasks section */
+    .task-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 14px; }
+    .task-card {
+      background: var(--ui-surface);
+      /* neutral border by default */
+      border: 1px solid var(--ui-border);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .task-card h3 { margin: 0; font-size: 18px; }
+    .task-card input, .task-card textarea { width: 100%; padding: 10px; border: 1px solid var(--ui-border); border-radius: 8px; background: var(--ui-surface-2); font-family: inherit; font-size: 14px; }
+    .task-card textarea { min-height: 70px; resize: vertical; }
+    .task-card button { align-self: flex-start; background: var(--accent-3); color: #fff; border: none; border-radius: 8px; padding: 10px 16px; cursor: pointer; font-family: inherit; font-size: 14px; transition: all 0.2s; }
+    .task-card button:hover { opacity: 0.96; transform: translateY(-1px); }
+    .task-card a { font-size: 14px; color: var(--accent-3); text-decoration: none; }
+    .task-card a:hover { text-decoration: underline; }
+
+    /* -----------------------------------------------------------------
+       Left control panel for ordering and toggling global controls
+       ----------------------------------------------------------------- */
+    .toggle-panel {
+      position: fixed;
+      top: 120px;
+      left: 0;
+      width: 220px;
+      background: var(--ui-surface);
+      border-right: 1px solid var(--ui-border);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      z-index: 9;
+      height: calc(100vh - 120px);
+      overflow-y: auto;
+      /* Allow smooth sliding of the panel when hiding/showing */
+      transition: transform 0.3s ease;
+    }
+    .toggle-panel h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: var(--text);
+    }
+    .toggle-panel .control-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .toggle-panel .control-item .label {
+      flex: 1;
+      font-size: 14px;
+      color: var(--text);
+      display: block;
+    }
+    .toggle-panel .control-item .reorder {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .toggle-panel .control-item .reorder button {
+      border: none;
+      background: transparent;
+      padding: 2px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--accent-3);
+      transition: color 0.2s;
+    }
+    .toggle-panel .control-item .reorder button:hover {
+      color: var(--accent);
+    }
+
+    /* When the panel is closed, slide it off screen to the left */
+    body.panel-closed .toggle-panel {
+      transform: translateX(-100%);
+    }
+
+    /* Hide the global toggle controls when the panel is hidden */
+    body.panel-closed .gctl {
+      display: none;
+    }
+
+    /* Also hide per-section card border toggles when the control panel is hidden.  These
+       controls live inside section headers and should disappear alongside the main
+       controls to reduce clutter when the panel is collapsed. */
+    body.panel-closed .section-header .control {
+      display: none;
+    }
+    /* Style for the panel toggle button that controls show/hide */
+    .panel-toggle {
+      position: fixed;
+      top: 120px;
+      /* When panel is open, position the toggle at the right edge of the panel */
+      left: 220px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ui-surface);
+      border: 1px solid var(--ui-border);
+      border-left: none;
+      border-radius: 0 8px 8px 0;
+      box-shadow: var(--shadow);
+      color: var(--accent-3);
+      cursor: pointer;
+      z-index: 10;
+      transition: background 0.2s ease, color 0.2s ease;
+      /* remove default button text alignment */
+      font-size: 0;
+    }
+    /* Size and position the icons within the panel toggle */
+    .panel-toggle svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
+    .panel-toggle .icon-eye-slash { display: none; }
+    /* When panel is closed, show the eye‑slash and hide the eye */
+    body.panel-closed .panel-toggle .icon-eye { display: none; }
+    body.panel-closed .panel-toggle .icon-eye-slash { display: block; }
+    }
+    .panel-toggle:hover {
+      background: var(--accent-3);
+      color: #fff;
+    }
+    /* Ensure the toggle remains visible when the panel is hidden */
+    body.panel-closed .panel-toggle {
+      /* When panel is closed, move the toggle to the viewport edge */
+      left: 0;
+    }
+    /* Override control item layout to accommodate drag handle */
+    .toggle-panel .control-item {
+      justify-content: flex-start;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px;
+      border: 1px solid var(--ui-border);
+      border-radius: 8px;
+      background: var(--ui-surface-2);
+    }
+    .toggle-panel .control-item .label {
+      flex: 1;
+    }
+    /* Drag handle styling */
+    .toggle-panel .control-item .drag-handle {
+      cursor: grab;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      margin-right: 4px;
+      color: var(--accent-3);
+      user-select: none;
+    }
+    .toggle-panel .control-item .drag-handle:active {
+      cursor: grabbing;
+    }
+    /* Visual feedback during dragging */
+    .toggle-panel .control-item.dragging {
+      opacity: 0.5;
+    }
+    /* Hide the old reorder container if present */
+    .toggle-panel .control-item .reorder {
+      display: none;
+    }
+
+    /* Accent borders for cards when per-section card border toggles are enabled.  By default,
+       service, review and task cards use neutral borders (var(--ui-border)).  When a
+       per-section border toggle is on, the corresponding section receives a class on the
+       body (e.g. popular-border-on) and the cards inside that section switch to accent-3
+       borders to stand out against the background. */
+    body.popular-border-on #popular .service-card {
+      border-color: var(--accent-3) !important;
+    }
+    body.gallery-border-on #serviceGallerySection .service-card {
+      border-color: var(--accent-3) !important;
+    }
+    body.quick-border-on #quickTasks .task-card {
+      border-color: var(--accent-3) !important;
+    }
+
+    /* Modal for posting a task */
+    .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; visibility: hidden; opacity: 0; transition: opacity 0.3s ease; }
+    .modal.show { visibility: visible; opacity: 1; }
+    .modal .modal-content {
+      background: var(--ui-surface);
+      /* neutral border by default */
+      border: 1px solid var(--ui-border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+    .modal .modal-content h3 { margin-top: 0; margin-bottom: 16px; font-size: 20px; }
+    .modal .modal-content input, .modal .modal-content textarea { width: 100%; padding: 10px; border: 1px solid var(--ui-border); border-radius: 8px; background: var(--ui-surface-2); font-size: 14px; margin-bottom: 12px; }
+    .modal .modal-content textarea { min-height: 80px; resize: vertical; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }
+    .modal-actions .btn { padding: 8px 14px; border-radius: 8px; font-size: 14px; cursor: pointer; border: 1px solid; }
+    .modal-actions .btn.primary { background: var(--accent-3); color: #fff; border: none; }
+    .modal-actions .btn.secondary { background: var(--ui-surface-2); color: var(--text); border-color: var(--ui-border); }
+    .modal-actions .btn.primary:hover { opacity: 0.96; }
+    .modal-actions .btn.secondary:hover { background: var(--ui-surface); }
+
+    /* Toast notifications */
+    #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--nav); color: var(--nav-text); padding: 12px 18px; border-radius: 8px; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 200; }
+    #toast.show { opacity: 1; pointer-events: auto; }
+
+    /* Frost overlay tinted layer (visible when frost-on or blur-on) */
+    .frost-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      /* gentle tint and pattern derived from original design */
+      /* Further lighten the frost overlay tint so underlying content remains legible.  The radial highlight and dark gradient
+         use even lower opacity values (0.05→0.04, 0.10→0.08, 0.30→0.24) to reduce darkness. */
+      background:
+        radial-gradient(1200px 600px at 65% -10%, rgba(255,255,255,0.02), transparent 60%),
+        linear-gradient(to bottom, rgba(10,23,18,0.04), rgba(10,23,18,0.12));
+    }
+    body.frost-on .frost-overlay { opacity: 1; }
+    body.blur-on .frost-overlay { backdrop-filter: blur(12px); }
+
+    /* Footer */
+    footer { background: var(--nav); color: var(--nav-text); padding: 30px 20px; text-align: center; }
+    footer a { color: var(--nav-text); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+  
+    /* Show scroller arrows only on hover/focus to match previewer standards */
+    .scroller .scroll-arrow { 
+      opacity: 0; 
+      visibility: hidden; 
+      transform: translateY(-50%) scale(0.98); 
+      transition: opacity .15s ease, visibility .15s ease, transform .15s ease;
+    }
+    .scroller:hover .scroll-arrow,
+    .scroll-arrow:focus-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) scale(1);
+    }
+  
+/* Hide disabled gallery arrows completely */
+.scroll-arrow[aria-disabled="true"],
+.scroll-arrow.disabled {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+    /*
+      Gradient backgrounds for primary/action buttons and toast when gradients are enabled.
+      When the gradients toggle is ON (body does not have .no-gradients), buttons that use
+      accent colours will display a smooth gradient from accent-3 to accent. When gradients
+      are disabled (.no-gradients present), buttons revert to solid accent colours. Secondary
+      buttons and neutral surfaces are intentionally left untouched.
+    */
+    body:not(.no-gradients) .apply-btn,
+    body:not(.no-gradients) .service-card .btn:not(.secondary),
+    body:not(.no-gradients) .nav-cta .btn,
+    body:not(.no-gradients) .modal-actions .btn.primary,
+    body:not(.no-gradients) .task-card button {
+      background: linear-gradient(90deg, var(--accent-3), var(--accent));
+      /* Remove borders on primary/action buttons when gradients are on.  The base styles define border: none;
+         setting border: none here ensures that the gradient rule does not inadvertently reintroduce a border. */
+      border: none;
+      color: #fff;
+    }
+    /* toast inherits accent-based gradient when gradients are on */
+    body:not(.no-gradients) #toast {
+      background: linear-gradient(90deg, var(--accent-3), var(--accent));
+      color: #fff;
+    }
+    /* Global scrollbar thumb gradient when gradients are on */
+    body:not(.no-gradients) .track::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, var(--accent-3), var(--accent));
+      border: 2px solid var(--ui-surface-2);
+    }
+
 </style>
 </head>
-<body class="t-moss">
-<div class="app">
-  <header>
-    <nav class="nav" aria-label="Primary">
-      <div class="brand"><div class="logo"></div> Task&nbsp;UI</div>
-      <div class="nav-links">
-        <a href="#">Services</a>
-        <a href="#">My Tasks</a>
-      </div>
-      <div class="nav-cta">
-        <button id="openPostTask" class="btn">Post a Task</button>
-      </div>
-    </nav>
-  </header>
+<body class="t-moss no-gradients">
+  <!-- Frost overlay: tinted layer that appears when frost or blur toggles are active -->
+  <div class="frost-overlay" aria-hidden="true"></div>
+  <div class="app">
+    <!-- Navigation bar -->
+    <header>
+      <nav class="nav" aria-label="Primary">
+        <div class="brand"><div class="logo"></div> UX&nbsp;Theme&nbsp;Demo</div>
+        <!-- Updated nav links inspired by the MigrateMate layout.  Each link has a title attribute for hover tooltips. -->
+        <div class="nav-links" role="menubar">
+          <a role="menuitem" href="#postJob" title="Post a job">Post a job</a>
+          <a role="menuitem" href="#howItWorks" title="How it works">How it works</a>
+          <a role="menuitem" href="#pricing" title="View pricing">Pricing</a>
+          <a role="menuitem" href="#login" title="Sign in to your account">Login</a>
+          <a role="menuitem" href="#access" title="Get access">Get Access</a>
+        </div>
+        <div class="nav-cta">
+          <!-- Retain the Post a Task button as our call‑to‑action; the tooltip clarifies the action. -->
+          <button id="openPostTask" class="btn" title="Post a new task">Post a Task</button>
+        </div>
+      </nav>
+    </header>
 
-  <main class="page">
-    <!-- THEME GALLERY (exact structure from uploaded file) -->
-    <section class="page-section paper">
-      <div class="container">
+    <!-- Sentinel element used with IntersectionObserver to determine when the page has been scrolled away from the top.  It is visually
+         hidden (1px tall) and sits immediately after the header so that when it leaves the viewport, we know the nav should hide. -->
+    <div id="navSentinel" style="height:1px; width:100%;"></div>
+    <!-- Panel toggle button: contains both eye and eye-slash icons; CSS controls which one is visible -->
+    <button id="panelToggle" class="panel-toggle" aria-label="Hide control panel">
+      <!-- Eye icon (visible when panel is open) -->
+      <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+      </svg>
+      <!-- Eye‑slash icon (visible when panel is closed) -->
+      <svg class="icon-eye-slash" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/>
+        <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
+        <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"/>
+      </svg>
+    </button>
+    <!-- Left control panel for reordering and toggling global controls -->
+    <aside id="controlPanel" class="toggle-panel" aria-label="Control panel">
+      <h3>Controls</h3>
+      <div id="controlList"></div>
+    </aside>
+
+    <div class="page">
+      <!-- Search bar for themes -->
+      <div class="search">
+        <input id="themeSearch" type="search" placeholder="Search themes (e.g., Moss, Mint, Jade)…" />
+      </div>
+
+      <!-- Theme Gallery header with toggles for gradient, frost, blur and nav -->
+      <div class="titlebar">
         <h2>Theme Gallery</h2>
+        <div class="gctl">
+          <div class="control">
+            <span>Gradients</span>
+            <button id="gToggle" class="g-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle gradients">
+              <input type="checkbox" aria-hidden="true" />
+              <span class="rail"><span class="knob"></span></span>
+            </button>
+          </div>
+          <div class="control">
+            <span>Frost</span>
+            <button id="fToggle" class="g-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle frost overlay">
+              <input type="checkbox" aria-hidden="true" />
+              <span class="rail"><span class="knob"></span></span>
+            </button>
+          </div>
+          <div class="control">
+            <span>Blur</span>
+            <button id="bToggle" class="g-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle frost blur">
+              <input type="checkbox" aria-hidden="true" />
+              <span class="rail"><span class="knob"></span></span>
+            </button>
+          </div>
+          <div class="control">
+            <span>Hide Nav</span>
+            <button id="nToggle" class="g-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle nav auto-hide">
+              <input type="checkbox" aria-hidden="true" />
+              <span class="rail"><span class="knob"></span></span>
+            </button>
+          </div>
+
+          <div class="control">
+            <span>Background</span>
+            <!-- Background pattern toggle: on by default -->
+            <button id="bgToggle" class="g-toggle on" type="button" role="switch" aria-checked="true" aria-label="Toggle background pattern">
+              <input type="checkbox" aria-hidden="true" checked />
+              <span class="rail"><span class="knob"></span></span>
+            </button>
+          </div>
+          <div class="control">
+            <span>Section BG</span>
+            <!-- Section background toggle: on by default; when off, section backgrounds become transparent -->
+            <button id="sbToggle" class="g-toggle on" type="button" role="switch" aria-checked="true" aria-label="Toggle section backgrounds">
+              <input type="checkbox" aria-hidden="true" checked />
+              <span class="rail"><span class="knob"></span></span>
+            </button>
+          </div>
+          <div class="control">
+            <span>Section Borders</span>
+            <!-- Section border toggle: on by default; when off, section borders revert to neutral or disappear -->
+            <button id="brToggle" class="g-toggle on" type="button" role="switch" aria-checked="true" aria-label="Toggle section borders">
+              <input type="checkbox" aria-hidden="true" checked />
+              <span class="rail"><span class="knob"></span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Theme Gallery scroller -->
+      <div class="theme-zone">
         <div class="scroller">
           <button class="scroll-arrow scroll-left" id="scrollLeft">&#8249;</button>
           <div class="track" id="themeGallery"></div>
           <button class="scroll-arrow scroll-right" id="scrollRight">&#8250;</button>
         </div>
       </div>
-    </section>
 
-    <!-- REVIEWS -->
-    <section class="page-section paper">
-      <h2>See what happy customers are saying</h2>
-      <div class="review-grid">
-        <div class="review-card">
-          <div class="name">Elizabeth P. <span class="stars">★★★★★</span></div>
-          <p>Vitalii assembled the Norli drawer chest in under 30 minutes and fixed a drawer on an existing desk. Fast and meticulous.</p>
-          <div class="cat"><a href="#">IKEA Furniture Assembly</a></div>
-        </div>
-        <div class="review-card">
-          <div class="name">Tiffany B. <span class="stars">★★★★★</span></div>
-          <p>David set up the crib and dresser, organized boxes for easy disposal, and walked us through the setup. Spotless cleanup.</p>
-          <div class="cat"><a href="#">Furniture Assembly</a></div>
-        </div>
-        <div class="review-card">
-          <div class="name">Amanda L. <span class="stars">★★★★★</span></div>
-          <p>Joe patched wall/ceiling holes, communicated well, and returned to perfect the finish. Pro work.</p>
-          <div class="cat"><a href="#">Home repairs</a></div>
-        </div>
-        <div class="review-card">
-          <div class="name">Sabrina K. <span class="stars">★★★★★</span></div>
-          <p>Aleksandr arrived fully equipped—hardware included. Hung a heavy chandelier and fixed a cabinet perfectly.</p>
-          <div class="cat"><a href="#">Electrical help</a></div>
-        </div>
-        <div class="review-card">
-          <div class="name">Jana T. <span class="stars">★★★★★</span></div>
-          <p>Jose cleared a clogged AC drain quickly. On time, communicative, efficient. Recommend.</p>
-          <div class="cat"><a href="#">Plumbing</a></div>
-        </div>
-        <div class="review-card">
-          <div class="name">Elisa R. <span class="stars">★★★★★</span></div>
-          <p>Michael installed frameless glass shower doors with a tricky setup. Patient and precise.</p>
-          <div class="cat"><a href="#">General Mounting</a></div>
-        </div>
-      </div>
-      <div class="trust-row">
-        <span>Great</span>
-        <span class="pill">★★★★☆</span>
-        <span>47,417 reviews on</span>
-        <span class="pill">Trustpilot</span>
-      </div>
-    </section>
-
-    <!-- POPULAR SERVICES -->
-    <section class="page-section paper">
-      <h2>Popular Services</h2>
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="hero"></div>
-          <div class="title">Cleaning</div>
-          <div class="muted">Apartments, houses, move‑out</div>
-          <div style="display:flex;gap:10px">
-            <button class="btn secondary">Details</button>
-            <button class="btn">Add</button>
+      <!-- Popular Services section -->
+      <section id="popular" class="paper">
+        <div class="section-header" id="services">
+          <h2>Popular Services</h2>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="control">
+              <span>Card Border</span>
+              <button id="popularBorderToggle" class="g-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle card borders for popular services">
+                <input type="checkbox" aria-hidden="true" />
+                <span class="rail"><span class="knob"></span></span>
+              </button>
+            </div>
+            <a href="#serviceGallerySection" class="section-link">Go to Service Gallery</a>
           </div>
         </div>
-        <div class="service-card">
-          <div class="hero"></div>
-          <div class="title">Furniture Assembly</div>
-          <div class="muted">Desks, beds, shelves</div>
-          <div style="display:flex;gap:10px">
-            <button class="btn secondary">Details</button>
-            <button class="btn">Add</button>
-          </div>
-        </div>
-        <div class="service-card">
-          <div class="hero"></div>
-          <div class="title">Home Repairs</div>
-          <div class="muted">Doors, drywall, fixtures</div>
-          <div style="display:flex;gap:10px">
-            <button class="btn secondary">Details</button>
-            <button class="btn">Add</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICE GALLERY -->
-    <section class="page-section paper">
-      <h2>Service Gallery</h2>
-      <div class="s-scroller">
-        <div class="s-track">
+        <div class="services-grid" id="popularServices">
+          <!-- Example service cards (6) -->
           <div class="service-card">
             <div class="hero"></div>
-            <div class="title">Deep Clean (2 hrs)</div>
+            <div class="title">Cleaning</div>
+            <div class="muted">Apartments, houses, move‑out</div>
             <div class="row">
-              <select class="control"><option>1 hr</option><option selected>2 hrs</option><option>3 hrs</option></select>
-              <button class="btn">Add</button>
-              <button class="btn">Book</button>
+              <button class="btn secondary" title="See what's included">Details</button>
+              <button class="btn" title="Add to your cart">Add</button>
             </div>
           </div>
           <div class="service-card">
             <div class="hero"></div>
             <div class="title">Furniture Assembly</div>
+            <div class="muted">Desks, beds, shelves</div>
             <div class="row">
-              <select class="control"><option>1 hr</option><option>2 hrs</option><option selected>3 hrs</option></select>
-              <button class="btn">Add</button>
-              <button class="btn">Book</button>
+              <button class="btn secondary" title="See parts & options">Details</button>
+              <button class="btn" title="Add to your cart">Add</button>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="hero"></div>
+            <div class="title">Home Repairs</div>
+            <div class="muted">Doors, drywall, fixtures</div>
+            <div class="row">
+              <button class="btn secondary" title="View scope">Details</button>
+              <button class="btn" title="Add to your cart">Add</button>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="hero"></div>
+            <div class="title">Delivery</div>
+            <div class="muted">Local pick‑up & drop‑off</div>
+            <div class="row">
+              <button class="btn secondary" title="Service windows">Details</button>
+              <button class="btn" title="Add to your cart">Add</button>
             </div>
           </div>
           <div class="service-card">
             <div class="hero"></div>
             <div class="title">Yard Work</div>
+            <div class="muted">Mowing, trimming, cleanup</div>
             <div class="row">
-              <select class="control"><option selected>1 hr</option><option>2 hrs</option><option>3 hrs</option></select>
-              <button class="btn">Add</button>
-              <button class="btn">Book</button>
+              <button class="btn secondary" title="Seasonal packages">Details</button>
+              <button class="btn" title="Add to your cart">Add</button>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="hero"></div>
+            <div class="title">IT Help</div>
+            <div class="muted">Remote or on‑site support</div>
+            <div class="row">
+              <button class="btn secondary" title="Support scope">Details</button>
+              <button class="btn" title="Add to your cart">Add</button>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-wrap">
-      <div>
-        <h4>Dox Services</h4>
-        <p>Driving digital transformation through AI, BI, and practical execution.</p>
-        <div class="social">
-          <div class="dot" title="LinkedIn"></div>
-          <div class="dot" title="Twitter"></div>
-          <div class="dot" title="Facebook"></div>
-          <div class="dot" title="Instagram"></div>
+      <!-- Service Gallery section -->
+      <section id="serviceGallerySection" class="paper">
+        <div class="section-header">
+          <h2>Service Gallery</h2>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div class="control">
+              <span>Card Border</span>
+              <button id="galleryBorderToggle" class="g-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle card borders for service gallery">
+                <input type="checkbox" aria-hidden="true" />
+                <span class="rail"><span class="knob"></span></span>
+              </button>
+            </div>
+            <a href="#popular" class="section-link">Go to Popular Services</a>
+          </div>
         </div>
-      </div>
-      <div>
-        <h4>Services</h4>
-        <p><a href="#">Artificial Intelligence</a></p>
-        <p><a href="#">Business Intelligence</a></p>
-        <p><a href="#">Digital Marketing</a></p>
-        <p><a href="#">SEO Optimization</a></p>
-        <p><a href="#">Data Analytics</a></p>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <p><a href="#">About Us</a></p>
-        <p><a href="#">Careers</a></p>
-        <p><a href="#">Case Studies</a></p>
-        <p><a href="#">Blog</a></p>
-        <p><a href="#">Contact</a></p>
-      </div>
-      <div>
-        <h4>Contact Us</h4>
-        <p>123 Tech Avenue, San Francisco, CA</p>
-        <p>+1 (555) 123‑4567</p>
-        <p><a href="mailto:info@doxservices.com">info@doxservices.com</a></p>
+        <div class="scroller">
+          <div class="track" id="serviceGallery">
+            <!-- Service cards with rates and categories -->
+            <div class="service-card">
+              <div class="hero"></div>
+              <div class="title">Full‑stack Dev</div>
+              <div class="muted">Node · Postgres · React</div>
+              <div class="chips">
+                <span class="chip">From $30/hr</span>
+                <span class="chip">Tech</span>
+              </div>
+              <div class="row">
+                <button class="btn secondary" title="See what's included">Details</button>
+                <button class="btn" title="Add to your cart">Hire</button>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="hero"></div>
+              <div class="title">UX Research</div>
+              <div class="muted">Interviews & Tests</div>
+              <div class="chips">
+                <span class="chip">$499 pkg</span>
+                <span class="chip">UX</span>
+              </div>
+              <div class="row">
+                <button class="btn secondary" title="See parts & options">Details</button>
+                <button class="btn" title="Add to your cart">Hire</button>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="hero"></div>
+              <div class="title">Data Dashboards</div>
+              <div class="muted">Power BI · DAX</div>
+              <div class="chips">
+                <span class="chip">$899</span>
+                <span class="chip">Analytics</span>
+              </div>
+              <div class="row">
+                <button class="btn secondary" title="View scope">Details</button>
+                <button class="btn" title="Add to your cart">Hire</button>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="hero"></div>
+              <div class="title">Content Writing</div>
+              <div class="muted">Long‑form · SEO</div>
+              <div class="chips">
+                <span class="chip">$0.12/word</span>
+                <span class="chip">Content</span>
+              </div>
+              <div class="row">
+                <button class="btn secondary" title="Seasonal packages">Details</button>
+                <button class="btn" title="Add to your cart">Hire</button>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="hero"></div>
+              <div class="title">QA & Testing</div>
+              <div class="muted">Manual + Automated</div>
+              <div class="chips">
+                <span class="chip">$25/hr</span>
+                <span class="chip">Quality</span>
+              </div>
+              <div class="row">
+                <button class="btn secondary" title="Support scope">Details</button>
+                <button class="btn" title="Add to your cart">Hire</button>
+              </div>
+            </div>
+            <div class="service-card">
+              <div class="hero"></div>
+              <div class="title">Product Photos</div>
+              <div class="muted">Retouching incl.</div>
+              <div class="chips">
+                <span class="chip">$79/video</span>
+                <span class="chip">Media</span>
+              </div>
+              <div class="row">
+                <button class="btn secondary" title="Support scope">Details</button>
+                <button class="btn" title="Add to your cart">Hire</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Post‑A‑Task cards (optional) -->
+      <section id="quickTasks" class="paper">
+        <div class="section-header">
+          <h2>Quick Tasks</h2>
+          <div class="control">
+            <span>Card Border</span>
+            <button id="quickBorderToggle" class="g-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle card borders for quick tasks">
+              <input type="checkbox" aria-hidden="true" />
+              <span class="rail"><span class="knob"></span></span>
+            </button>
+          </div>
+        </div>
+        <div class="task-grid">
+          <div class="task-card">
+            <h3>General Task</h3>
+            <input type="text" placeholder="Task title" />
+            <textarea placeholder="Describe your task…"></textarea>
+            <input type="text" placeholder="Budget" />
+            <button title="Create and publish">Post</button>
+          </div>
+          <div class="task-card">
+            <h3>Home Repair</h3>
+            <input type="text" placeholder="What's broken?" />
+            <textarea placeholder="Symptoms, photos link…"></textarea>
+            <input type="text" placeholder="Preferred date" />
+            <button title="Create and publish">Post</button>
+          </div>
+          <div class="task-card">
+            <h3>Delivery</h3>
+            <input type="text" placeholder="Pickup → Dropoff" />
+            <textarea placeholder="Size, weight, notes…"></textarea>
+            <input type="text" placeholder="Time window" />
+            <button title="Create and publish">Post</button>
+          </div>
+          <div class="task-card">
+            <h3>Yard Cleanup</h3>
+            <input type="text" placeholder="Yard size?" />
+            <textarea placeholder="Debris, photos link…"></textarea>
+            <input type="text" placeholder="Preferred date" />
+            <button title="Create and publish">Post</button>
+          </div>
+          <div class="task-card">
+            <h3>Pet Care</h3>
+            <input type="text" placeholder="Pet type" />
+            <textarea placeholder="Instructions…"></textarea>
+            <input type="text" placeholder="Preferred date" />
+            <button title="Create and publish">Post</button>
+          </div>
+          <div class="task-card">
+            <h3>Event Planning</h3>
+            <input type="text" placeholder="Event type" />
+            <textarea placeholder="Notes…"></textarea>
+            <input type="text" placeholder="Preferred date" />
+            <button title="Create and publish">Post</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews (moved near bottom) -->
+      <section class="reviews">
+        <h2>What happy customers are saying</h2>
+        <div class="review-grid">
+          <div class="review-card">
+            <div class="name">Elizabeth P. <span class="stars">★★★★★</span></div>
+            <p>Vitalii assembled the Norli drawer chest in under 30 minutes and fixed a drawer on an existing desk. Fast and meticulous.</p>
+            <div class="cat"><a href="#">IKEA Furniture Assembly</a></div>
+          </div>
+          <div class="review-card">
+            <div class="name">Tiffany B. <span class="stars">★★★★★</span></div>
+            <p>David set up the crib and dresser, organized boxes for easy disposal, and walked us through the setup. Spotless cleanup.</p>
+            <div class="cat"><a href="#">Furniture Assembly</a></div>
+          </div>
+          <div class="review-card">
+            <div class="name">Amanda L. <span class="stars">★★★★★</span></div>
+            <p>Joe patched wall/ceiling holes, communicated well, and returned to perfect the finish. Pro work.</p>
+            <div class="cat"><a href="#">Home repairs</a></div>
+          </div>
+          <div class="review-card">
+            <div class="name">Sabrina K. <span class="stars">★★★★★</span></div>
+            <p>Aleksandr arrived fully equipped—hardware included. Hung a heavy chandelier and fixed a cabinet perfectly.</p>
+            <div class="cat"><a href="#">Electrical help</a></div>
+          </div>
+          <div class="review-card">
+            <div class="name">Jana T. <span class="stars">★★★★★</span></div>
+            <p>Jose cleared a clogged AC drain quickly. On time, communicative, efficient. Recommend.</p>
+            <div class="cat"><a href="#">Plumbing</a></div>
+          </div>
+          <div class="review-card">
+            <div class="name">Elisa R. <span class="stars">★★★★★</span></div>
+            <p>Michael installed frameless glass shower doors with a tricky setup. Patient and precise.</p>
+            <div class="cat"><a href="#">General Mounting</a></div>
+          </div>
+        </div>
+      </section>
+    </div> <!-- end .page -->
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 UX Theme Demo. All rights reserved.</p>
+      <p><a href="#">Privacy</a> · <a href="#">Terms</a> · <a href="#">Contact</a></p>
+    </footer>
+  </div> <!-- end .app -->
+
+  <!-- Post a Task modal -->
+  <div id="taskModal" class="modal">
+    <div class="modal-content">
+      <h3>Post a Task</h3>
+      <input id="taskTitle" type="text" placeholder="Task title" />
+      <textarea id="taskDesc" placeholder="Describe your task…"></textarea>
+      <input id="taskBudget" type="text" placeholder="Budget" />
+      <input id="taskDate" type="text" placeholder="Preferred date" />
+      <div class="modal-actions">
+        <button id="cancelTaskBtn" class="btn secondary">Cancel</button>
+        <button id="submitTaskBtn" class="btn primary">Post</button>
       </div>
     </div>
-    <div class="foot-meta">
-      <div>© Dox Services 2025 — All rights reserved.</div>
-      <div>doxservices.com</div>
-    </div>
-  </footer>
-</div>
+  </div>
 
-<script>
-  const body = document.body;
-  const THEME_CLASSES = ['t-moss','t-emerald','t-jade','t-mint','t-malachite','t-crimson','t-seaglass','t-rose','t-violet'];
-  function setTheme(themeClass){
-    THEME_CLASSES.forEach(c => body.classList.remove(c));
-    body.classList.add(themeClass);
-  }
+  <!-- Toast notification -->
+  <div id="toast"></div>
 
-  // ===== Theme Gallery JS — copied from uploaded file =====
-  const THEMES = [
-    {name:'Moss',         key:'t-moss',      accent:'#2E7D32', accent2:'#4CAF50', accent3:'#1E5226', panel:'#EDF5ED', border:'#D6E2D6', nav:'#11351A'},
-    {name:'Emerald',      key:'t-emerald',   accent:'#1B5E20', accent2:'#2E7D32', accent3:'#1B5E20', panel:'#E8F5E9', border:'#D9EBDD', nav:'#0F3F22'},
-    {name:'Jade',         key:'t-jade',      accent:'#00A86B', accent2:'#80D8C0', accent3:'#007A55', panel:'#E0FBEA', border:'#CFEFE2', nav:'#05553A'},
-    {name:'Mint Chrome',  key:'t-mint',      accent:'#00BFA5', accent2:'#009688', accent3:'#0E6A5B', panel:'#E0F2F1', border:'#CFE8E2', nav:'#083F36'},
-    {name:'Malachite',    key:'t-malachite', accent:'#1B6530', accent2:'#388E3C', accent3:'#145C34', panel:'#E9F7EF', border:'#D2ECE1', nav:'#0E3A22'},
-    {name:'Emerald + Crimson', key:'t-crimson', accent:'#2E7D32', accent2:'#4CAF50', accent3:'#D32F2F', panel:'#F8FFFC', border:'#DCECE2', nav:'#123A22'},
-    {name:'Seaglass',     key:'t-seaglass',  accent:'#2E7D32', accent2:'#4CAF50', accent3:'#1E88E5', panel:'#F6FFFE', border:'#CFE8E7', nav:'#0A3D2A'},
-    {name:'Rose Mint',    key:'t-rose',      accent:'#2E7D32', accent2:'#4CAF50', accent3:'#E91E63', panel:'#FFFAFD', border:'#E7DCE4', nav:'#3A0F26'},
-    {name:'Sage Violet',  key:'t-violet',    accent:'#2E7D32', accent2:'#4CAF50', accent3:'#7E57C2', panel:'#FBFAFF', border:'#DCDCF0', nav:'#271A3C'}
-  ];
-  const gallery = document.getElementById('themeGallery');
-  const scrollLeft = document.getElementById('scrollLeft');
-  const scrollRight = document.getElementById('scrollRight');
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+  // Cache the header element for nav hide transitions
+  const headerEl = document.querySelector('header');
+      
+  // Ensure branding text
+  const brandEl = document.querySelector('header .brand');
+  if (brandEl) {
+    const logo = brandEl.querySelector('.logo');
+    brandEl.textContent = 'UX Theme Demo';
+    if (logo) brandEl.prepend(logo);
+  }
+const body = document.body;
+      const themeGallery = document.getElementById('themeGallery');
+      const gToggle = document.getElementById('gToggle');
+      const fToggle = document.getElementById('fToggle');
+      const bToggle = document.getElementById('bToggle');
+      const nToggle = document.getElementById('nToggle');
+      const bgToggle = document.getElementById('bgToggle');
+      const sbToggle = document.getElementById('sbToggle');
+      const brToggle = document.getElementById('brToggle');
+      // Section card border toggles
+      const popularBorderToggle = document.getElementById('popularBorderToggle');
+      const galleryBorderToggle = document.getElementById('galleryBorderToggle');
+      const quickBorderToggle = document.getElementById('quickBorderToggle');
+      const searchInput = document.getElementById('themeSearch');
+      const scrollLeft = document.getElementById('scrollLeft');
+      const scrollRight = document.getElementById('scrollRight');
+      const toastEl = document.getElementById('toast');
+      const taskModal = document.getElementById('taskModal');
+      const openPostTaskBtn = document.getElementById('openPostTask');
+      const cancelTaskBtn = document.getElementById('cancelTaskBtn');
+      const submitTaskBtn = document.getElementById('submitTaskBtn');
 
-  function hexToRgb(hex){
-    hex = hex.replace(/^#/, '');
-    let r,g,b;
-    if(hex.length===3){ r=parseInt(hex[0]+hex[0],16); g=parseInt(hex[1]+hex[1],16); b=parseInt(hex[2]+hex[2],16); }
-    else if(hex.length===6){ r=parseInt(hex.substring(0,2),16); g=parseInt(hex.substring(2,4),16); b=parseInt(hex.substring(4,6),16); }
-    else { return 'rgb(0, 0, 0)'; }
-    return `rgb(${r}, ${g}, ${b})`;
-  }
-
-  function cardTemplate(t){
-    const el = document.createElement('div');
-    el.className='theme-card';
-    el.setAttribute('data-theme',t.key);
-    el.setAttribute('data-name',t.name);
-    el.style.setProperty('--c-accent-3', t.accent3);
-    el.innerHTML=`
-      <div class="title">${t.name}</div>
-      <button class="copy-btn-top" title="Copy theme palette">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 8V5C16 3.89543 15.1046 3 14 3H5C3.89543 3 3 3.89543 3 5V14C3 15.1046 3.89543 16 5 16H8M10 19H19C20.1046 19 21 18.1046 21 17V8C21 6.89543 20.1046 6 19 6H10C8.89543 6 8 6.89543 8 8V17C8 18.1046 8.89543 19 10 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <div class="swatches">
-        <div class="sw" data-role="Accent"  style="background:${t.accent}"></div>
-        <div class="sw" data-role="Accent2" style="background:${t.accent2}"></div>
-        <div class="sw" data-role="Accent3" style="background:${t.accent3}"></div>
-        <div class="sw" data-role="Panel"   style="background:${t.panel}"></div>
-        <div class="sw" data-role="Border"  style="background:${t.border}"></div>
-        <div class="sw" data-role="Nav"     style="background:${t.nav}"></div>
-      </div>
-      <div class="card-buttons">
-        <button class="apply-btn">Apply</button>
-      </div>`;
-    el.querySelector('.apply-btn').addEventListener('click',()=>setTheme(t.key));
-    el.querySelector('.copy-btn-top').addEventListener('click',async()=>{await copyCardToClipboard(el,t)});
-    return el;
-  }
-
-  function renderGallery(){
-    gallery.innerHTML='';
-    THEMES.forEach(t=>gallery.appendChild(cardTemplate(t)));
-    updateScrollButtons();
-  }
-  function updateScrollButtons(){
-    const isAtStart = gallery.scrollLeft <= 0;
-    const isAtEnd = gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth - 1;
-    scrollLeft.classList.toggle('disabled', isAtStart);
-    scrollRight.classList.toggle('disabled', isAtEnd);
-  }
-  function scrollToDirection(direction){
-    const cardWidth = 320 + 14;
-    const scrollAmount = cardWidth * 2;
-    if(direction==='left'){ gallery.scrollBy({left:-scrollAmount,behavior:'smooth'}); }
-    else { gallery.scrollBy({left:scrollAmount,behavior:'smooth'}); }
-  }
-  gallery.addEventListener('scroll', updateScrollButtons);
-  scrollLeft.addEventListener('click', ()=>{ if(!scrollLeft.classList.contains('disabled')) scrollToDirection('left'); });
-  scrollRight.addEventListener('click', ()=>{ if(!scrollRight.classList.contains('disabled')) scrollToDirection('right'); });
-  renderGallery();
-
-  async function copyCardToClipboard(cardElement, themeData){
-    try{
-      const canvas=document.createElement('canvas'); const ctx=canvas.getContext('2d');
-      const scale=2, sw=120, sh=80, th=60, pad=20;
-      canvas.width=(sw*6+pad*7)*scale; canvas.height=(sh+th+pad*3)*scale; ctx.scale(scale,scale);
-      const W=canvas.width/scale, H=canvas.height/scale;
-      ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
-      ctx.fillStyle='#222'; ctx.font='bold 16px system-ui'; ctx.textAlign='center'; ctx.fillText(`${themeData.name} Color Palette`, W/2, 25);
-      const colors=[
-        {color:themeData.accent,name:'Accent'},
-        {color:themeData.accent2,name:'Accent2'},
-        {color:themeData.accent3,name:'Accent3'},
-        {color:themeData.panel,name:'Panel'},
-        {color:themeData.border,name:'Border'},
-        {color:themeData.nav,name:'Nav'}
-      ];
-      for(let i=0;i<6;i++){
-        const x=pad+(sw+pad)*i, y=pad*2;
-        ctx.fillStyle=colors[i].color; ctx.fillRect(x,y,sw,sh);
-        ctx.strokeStyle='#E2E2E2'; ctx.lineWidth=1; ctx.strokeRect(x,y,sw,sh);
-        ctx.fillStyle='#333'; ctx.font='bold 12px system-ui'; ctx.fillText(colors[i].name, x+sw/2, y+sh+15);
-        ctx.fillStyle='#666'; ctx.font='11px monospace'; ctx.fillText(colors[i].color.toUpperCase(), x+sw/2, y+sh+30);
-        ctx.fillStyle='#888'; ctx.font='10px monospace'; ctx.fillText(hexToRgb(colors[i].color), x+sw/2, y+sh+45);
+      // Ensure brand and page title reflect UX Theme Demo immediately
+      if (document.title !== 'UX Theme Demo') {
+        document.title = 'UX Theme Demo';
       }
-      canvas.toBlob(async (blob)=>{
-        try{
-          await navigator.clipboard.write([ new ClipboardItem({ 'image/png': blob }) ]);
-          const btn=cardElement.querySelector('.copy-btn-top');
+
+      // Nav is not pinned by default. It will automatically recess when the user scrolls away from the top.
+      // Note: nav-pinned class is no longer used for auto-hide logic.
+      // Enable background pattern by default
+      body.classList.add('bg-on');
+
+      // Initialise Hide Nav toggle to reflect the current behaviour (auto-hide enabled by default).
+      if (nToggle && !nToggle.classList.contains('on')) {
+        nToggle.classList.add('on');
+        nToggle.setAttribute('aria-checked', 'true');
+        // Ensure nav is not pinned
+        body.classList.remove('nav-pinned');
+      }
+
+      /* Theme data */
+            const THEMES = [
+        { name:'Dark Turquoise',    key:'t-dark-turquoise', accent:'#134a33', accent2:'#176a4a', accent3:'#9fe1c0', panel:'#e5f4ee', border:'#cfe9e1', nav:'#134a33' },
+        { name:'Cedar Grove',       key:'t-cedar-grove',    accent:'#6d977f', accent2:'#315c47', accent3:'#d3c6b8', panel:'#f2ede5', border:'#b2987f', nav:'#1b3a2b' },
+
+        { name:'Moss',              key:'t-moss',           accent:'#2E7D32', accent2:'#4CAF50', accent3:'#1E5226', panel:'#EDF5ED', border:'#D6E2D6', nav:'#11351A' },
+        { name:'Emerald',           key:'t-emerald',        accent:'#1B5E20', accent2:'#2E7D32', accent3:'#1B5E20', panel:'#E8F5E9', border:'#D9EBDD', nav:'#0F3F22' },
+        { name:'Jade',              key:'t-jade',           accent:'#00A86B', accent2:'#80D8C0', accent3:'#007A55', panel:'#E0FBEA', border:'#CFEFE2', nav:'#05553A' },
+        { name:'Mint Chrome',       key:'t-mint',           accent:'#00BFA5', accent2:'#009688', accent3:'#0E6A5B', panel:'#E0F2F1', border:'#CFE8E2', nav:'#083F36' },
+        { name:'Malachite',         key:'t-malachite',      accent:'#1B6530', accent2:'#388E3C', accent3:'#145C34', panel:'#E9F7EF', border:'#D2ECE1', nav:'#0E3A22' },
+        { name:'Emerald + Crimson', key:'t-crimson',        accent:'#2E7D32', accent2:'#4CAF50', accent3:'#D32F2F', panel:'#F8FFFC', border:'#DCECE2', nav:'#123A22' },
+        { name:'Seaglass',          key:'t-seaglass',       accent:'#2E7D32', accent2:'#4CAF50', accent3:'#1E88E5', panel:'#F6FFFE', border:'#CFE8E7', nav:'#0A3D2A' },
+        { name:'Rose Mint',         key:'t-rose',           accent:'#2E7D32', accent2:'#4CAF50', accent3:'#E91E63', panel:'#FFFAFD', border:'#E7DCE4', nav:'#3A0F26' },
+        { name:'Sage Violet',       key:'t-violet',         accent:'#2E7D32', accent2:'#4CAF50', accent3:'#7E57C2', panel:'#FBFAFF', border:'#DCDCF0', nav:'#271A3C' },
+
+        // >= Lime Quartz (accent2/accent3 swapped so accent3 is darker)
+        { name:'Lime Quartz',       key:'t-lime-quartz',    accent:'#36a65f', accent2:'#c0ffd7', accent3:'#24352e', panel:'#f2fff8', border:'#ddeee6', nav:'#0b1411' },
+        { name:'Emerald Moss',      key:'t-emerald-moss',   accent:'#23a36d', accent2:'#9fe1c0', accent3:'#17694a', panel:'#ffffff', border:'#e7f4ee', nav:'#0B1B14' },
+        { name:'Forest Night',      key:'t-forest-night',   accent:'#1f6d4c', accent2:'#8fd7b9', accent3:'#123523', panel:'#ffffff', border:'#e5f2ec', nav:'#09120e' },
+        { name:'Mint Breeze',       key:'t-mint-breeze',    accent:'#7bdfb6', accent2:'#bff2dc', accent3:'#2b9b6d', panel:'#f6fffb', border:'#e3fbf1', nav:'#15533a' },
+        { name:'Moss Stone',        key:'t-moss-stone',     accent:'#3f8c66', accent2:'#dfe7e2', accent3:'#2c5a44', panel:'#f8fbfa', border:'#cbd3ce', nav:'#1b3b2d' },
+        { name:'Sea Foam',          key:'t-sea-foam',       accent:'#2f8e87', accent2:'#9be2db', accent3:'#1e5a56', panel:'#e9fbfa', border:'#ffffff', nav:'#0f2d2c' }
+      ];
+
+      // All theme class names (for removal)
+      const THEME_CLASSES = THEMES.map(t => t.key);
+
+      // Render theme cards into gallery
+      function createCard(t) {
+        const card = document.createElement('div');
+        card.className = 'theme-card';
+        card.setAttribute('data-name', t.name.toLowerCase());
+        card.setAttribute('data-key', t.key);
+        // Set hero colours via inline CSS vars for this card
+        card.style.setProperty('--hero-start', t.accent3);
+        card.style.setProperty('--hero-end', t.accent);
+        card.innerHTML = `
+          <div class="hero"></div>
+          <div class="title-row">
+            <span class="title">${t.name}</span>
+            <button class="copy-btn" title="Copy palette">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8V5C16 3.89543 15.1046 3 14 3H5C3.89543 3 3 3.89543 3 5V14C3 15.1046 3.89543 16 5 16H8M10 19H19C20.1046 19 21 18.1046 21 17V8C21 6.89543 20.1046 6 19 6H10C8.89543 6 8 6.89543 8 8V17C8 18.1046 8.89543 19 10 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <div class="swatches">
+            <div class="sw" data-role="Accent" style="background:${t.accent}"></div>
+            <div class="sw" data-role="Accent2" style="background:${t.accent2}"></div>
+            <div class="sw" data-role="Accent3" style="background:${t.accent3}"></div>
+            <div class="sw" data-role="Panel" style="background:${t.panel}"></div>
+            <div class="sw" data-role="Border" style="background:${t.border}"></div>
+            <div class="sw" data-role="Nav" style="background:${t.nav}"></div>
+          </div>
+          <button class="apply-btn">Apply</button>
+        `;
+        // use accent3 to colour the copy button on this card
+        card.style.setProperty('--copy-color', t.accent3);
+        const applyBtn = card.querySelector('.apply-btn');
+        if (applyBtn) { applyBtn.style.background = t.accent3; applyBtn.style.borderColor = t.accent3; }
+
+        // copy button functionality
+        card.querySelector('.copy-btn').addEventListener('click', async () => {
+          await copyPaletteToClipboard(t);
+          const btn = card.querySelector('.copy-btn');
           btn.classList.add('copied');
-          btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-          setTimeout(()=>{ btn.classList.remove('copied'); btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8V5C16 3.89543 15.1046 3 14 3H5C3.89543 3 3 3.89543 3 5V14C3 15.1046 3.89543 16 5 16H8M10 19H19C20.1046 19 21 18.1046 21 17V8C21 6.89543 20.1046 6 19 6H10C8.89543 6 8 6.89543 8 8V17C8 18.1046 8.89543 19 10 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }, 1500);
-        }catch(err){
-          const textData=`${themeData.name} Color Palette:\nAccent: ${themeData.accent} (${hexToRgb(themeData.accent)})\nAccent2: ${themeData.accent2} (${hexToRgb(themeData.accent2)})\nAccent3: ${themeData.accent3} (${hexToRgb(themeData.accent3)})\nPanel: ${themeData.panel} (${hexToRgb(themeData.panel)})\nBorder: ${themeData.border} (${hexToRgb(themeData.border)})\nNav: ${themeData.nav} (${hexToRgb(themeData.nav)})`;
-          await navigator.clipboard.writeText(textData);
+          btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8V5C16 3.89543 15.1046 3 14 3H5C3.89543 3 3 3.89543 3 5V14C3 15.1046 3.89543 16 5 16H8M10 19H19C20.1046 19 21 18.1046 21 17V8C21 6.89543 20.1046 6 19 6H10C8.89543 6 8 6.89543 8 8V17C8 18.1046 8.89543 19 10 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          }, 1500);
+        });
+        // apply button functionality
+        card.querySelector('.apply-btn').addEventListener('click', () => {
+          setTheme(t.key);
+          showToast(`Applied ${t.name}`);
+        });
+        return card;
+      }
+
+      function renderGallery() {
+        themeGallery.innerHTML = '';
+        THEMES.forEach(t => {
+          const card = createCard(t);
+          themeGallery.appendChild(card);
+        });
+        updateScrollButtons();
+      }
+
+      // Theme setter
+      function setTheme(themeKey) {
+        // Remove all theme classes
+        THEME_CLASSES.forEach(cls => body.classList.remove(cls));
+        body.classList.add(themeKey);
+      
+        // No automatic frost on theme change; frost is controlled by the Frost/Blur toggles only
+    }
+
+      // Copy palette to clipboard (compact horizontal layout).  Each row contains a square swatch
+      // with the colour name and hex value to the right, making the overall image smaller and
+      // more readable when multiple themes are pasted together.
+      async function copyPaletteToClipboard(t) {
+        try {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          const scale = 2;
+          const pad = 8;
+          const headerHeight = 16;
+          const rowHeight = 24;
+          const sw = 20; // swatch square size
+          // column widths: swatch + gap, label, hex
+          const col1 = sw + 6;
+          const col2 = 60;
+          const col3 = 90;
+          const totalWidth = pad + col1 + col2 + col3 + pad;
+          const totalHeight = pad + headerHeight + pad + (rowHeight * 6) + pad;
+          canvas.width = totalWidth * scale;
+          canvas.height = totalHeight * scale;
+          ctx.scale(scale, scale);
+          // white background
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, totalWidth, totalHeight);
+          // header
+          ctx.fillStyle = '#222';
+          ctx.font = 'bold 12px system-ui';
+          ctx.fillText(`${t.name} Palette`, pad, pad + headerHeight - 2);
+          const colors = [
+            { color: t.accent,  name: 'Accent'  },
+            { color: t.accent2, name: 'Accent2' },
+            { color: t.accent3, name: 'Accent3' },
+            { color: t.panel,   name: 'Panel'   },
+            { color: t.border,  name: 'Border'  },
+            { color: t.nav,     name: 'Nav'     }
+          ];
+          colors.forEach((c, i) => {
+            const y = pad + headerHeight + pad + i * rowHeight;
+            // swatch
+            const swY = y + (rowHeight - sw) / 2;
+            ctx.fillStyle = c.color;
+            ctx.fillRect(pad, swY, sw, sw);
+            ctx.strokeStyle = '#E2E2E2';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(pad, swY, sw, sw);
+            // name
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 10px system-ui';
+            ctx.fillText(c.name, pad + col1, y + rowHeight * 0.65);
+            // hex
+            ctx.fillStyle = '#666';
+            ctx.font = '9px monospace';
+            ctx.fillText(c.color.toUpperCase(), pad + col1 + col2, y + rowHeight * 0.65);
+          });
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        } catch (err) {
+          // fallback text
+          const text = `${t.name} Palette\nAccent: ${t.accent}\nAccent2: ${t.accent2}\nAccent3: ${t.accent3}\nPanel: ${t.panel}\nBorder: ${t.border}\nNav: ${t.nav}`;
+          await navigator.clipboard.writeText(text);
         }
-      }, 'image/png');
-    }catch(err){ console.error('Copy failed:', err); }
-  }
-</script>
+      }
+
+      // Toast notification
+      function showToast(message) {
+        toastEl.textContent = message;
+        toastEl.classList.add('show');
+        setTimeout(() => {
+          toastEl.classList.remove('show');
+        }, 2000);
+      }
+
+      // Search filter
+      searchInput.addEventListener('input', function() {
+        const q = (searchInput.value || '').trim().toLowerCase();
+        document.querySelectorAll('#themeGallery .theme-card').forEach(card => {
+          const name = card.getAttribute('data-name');
+          card.style.display = !q || name.includes(q) ? '' : 'none';
+        });
+      });
+
+      // Scroll buttons
+      // Compute a dynamic scroll step based on card width and gap. We scroll by at least
+      // three cards per click to provide meaningful movement. The value is recalculated
+      // on render and resize to stay in sync with responsive layouts.
+      let scrollStep = 640;
+      function computeScrollStep() {
+        const cards = themeGallery.children;
+        if (cards && cards.length > 0) {
+          // Determine the scroll distance between the first and fourth cards' left positions.  This
+          // accounts for responsive gaps and ensures that one click moves exactly three cards in view.
+          if (cards.length >= 4) {
+            // The distance from the first card to the fourth card includes three cards and three gaps.
+            scrollStep = cards[3].offsetLeft - cards[0].offsetLeft;
+          } else if (cards.length >= 2) {
+            // With fewer than four cards, fall back to scrolling by a single card's width plus gap (difference between first two cards)
+            scrollStep = cards[1].offsetLeft - cards[0].offsetLeft;
+          } else if (cards.length === 1) {
+            scrollStep = themeGallery.clientWidth;
+          }
+        }
+      }
+
+      function updateScrollButtons(){
+        const max = themeGallery.scrollWidth - themeGallery.clientWidth;
+        // Determine how far the gallery is scrolled.  Because the track has horizontal padding, scrollLeft may
+        // report a small non-zero value even when at the beginning.  We treat the gallery as at-start when the
+        // scrollLeft is less than or equal to the left padding plus a small epsilon.
+        const style = getComputedStyle(themeGallery);
+        const padLeft = parseFloat(style.paddingLeft) || 0;
+        const atStart = themeGallery.scrollLeft <= padLeft + 4;
+        const atEnd = themeGallery.scrollLeft >= (max - 1);
+        scrollLeft.classList.toggle('disabled', atStart);
+        scrollRight.classList.toggle('disabled', atEnd);
+        scrollLeft.setAttribute('aria-disabled', atStart ? 'true' : 'false');
+        scrollRight.setAttribute('aria-disabled', atEnd ? 'true' : 'false');
+      }
+
+      // Jump exactly three cards per click.  We compute a dynamic scrollStep (the distance between
+      // the first and fourth cards) so that padding, margins, and responsive gaps are taken into
+      // account.  On click we add or subtract this distance, clamped to the scrollable range.
+      function scrollByCards(dir) {
+        const max = themeGallery.scrollWidth - themeGallery.clientWidth;
+        // Ensure scrollStep reflects the current card layout before using it
+        computeScrollStep();
+        let newScroll;
+        if (dir === 'right') {
+          newScroll = Math.min(themeGallery.scrollLeft + scrollStep, max);
+        } else {
+          newScroll = Math.max(themeGallery.scrollLeft - scrollStep, 0);
+        }
+        themeGallery.scrollTo({ left: newScroll, behavior: 'smooth' });
+        requestAnimationFrame(updateScrollButtons);
+      }
+      // Smooth scrolling by cards on click
+      scrollLeft.addEventListener('click', () => {
+        if (!scrollLeft.classList.contains('disabled')) {
+          scrollByCards('left');
+        }
+      });
+      scrollRight.addEventListener('click', () => {
+        if (!scrollRight.classList.contains('disabled')) {
+          scrollByCards('right');
+        }
+      });
+
+      // Continuous smooth scroll on hold
+      let scrollAnimationId = null;
+      function startContinuousScroll(direction) {
+        stopContinuousScroll();
+        const speed = 800; // pixels per second
+        const stepPerFrame = speed / 60;
+        function step() {
+          const max = themeGallery.scrollWidth - themeGallery.clientWidth;
+          if (direction === 'left') {
+            if (themeGallery.scrollLeft <= 0) {
+              stopContinuousScroll();
+              return;
+            }
+            themeGallery.scrollLeft -= stepPerFrame;
+          } else {
+            if (themeGallery.scrollLeft >= max) {
+              stopContinuousScroll();
+              return;
+            }
+            themeGallery.scrollLeft += stepPerFrame;
+          }
+          updateScrollButtons();
+          scrollAnimationId = requestAnimationFrame(step);
+        }
+        scrollAnimationId = requestAnimationFrame(step);
+      }
+      function stopContinuousScroll() {
+        if (scrollAnimationId !== null) {
+          cancelAnimationFrame(scrollAnimationId);
+          scrollAnimationId = null;
+        }
+      }
+      // Attach hold events
+      function handleHoldStart(e, direction) {
+        if (e.button !== undefined && e.button !== 0) return; // only left mouse button
+        if ((direction === 'left' && scrollLeft.classList.contains('disabled')) || (direction === 'right' && scrollRight.classList.contains('disabled'))) return;
+        e.preventDefault();
+        startContinuousScroll(direction);
+      }
+      scrollLeft.addEventListener('mousedown', (e) => handleHoldStart(e, 'left'));
+      scrollRight.addEventListener('mousedown', (e) => handleHoldStart(e, 'right'));
+      scrollLeft.addEventListener('touchstart', (e) => { handleHoldStart(e, 'left'); });
+      scrollRight.addEventListener('touchstart', (e) => { handleHoldStart(e, 'right'); });
+      // Stop continuous scrolling on release or leave
+      document.addEventListener('mouseup', stopContinuousScroll);
+      document.addEventListener('touchend', stopContinuousScroll);
+      scrollLeft.addEventListener('mouseleave', stopContinuousScroll);
+      scrollRight.addEventListener('mouseleave', stopContinuousScroll);
+
+      // Update buttons on scroll and resize
+      themeGallery.addEventListener('scroll', updateScrollButtons);
+      window.addEventListener('resize', () => {
+        computeScrollStep();
+        updateScrollButtons();
+      });
+      // Compute initial scroll step and update arrow states after rendering gallery
+      computeScrollStep();
+      updateScrollButtons();
+
+      // Gradient toggle
+      gToggle.addEventListener('click', function() {
+        const isOn = !gToggle.classList.contains('on');
+        gToggle.classList.toggle('on', isOn);
+        gToggle.setAttribute('aria-checked', isOn.toString());
+        body.classList.toggle('no-gradients', !isOn);
+      });
+      // Hide Nav toggle now toggles whether the nav auto‑hides when scrolling.
+      // When on (default), the nav will recess on scroll; when off, the nav is pinned.
+      nToggle.addEventListener('click', function() {
+        // Toggle the on state and aria-checked attribute.  Also update the
+        // internal checkbox to reflect the state so the slider knob visibly moves.
+        const isOn = !nToggle.classList.contains('on');
+        nToggle.classList.toggle('on', isOn);
+        nToggle.setAttribute('aria-checked', isOn.toString());
+        const input = nToggle.querySelector('input[type="checkbox"]');
+        if (input) input.checked = isOn;
+        if (isOn) {
+          // enable auto‑hide: remove nav‑pinned
+          body.classList.remove('nav-pinned');
+        } else {
+          // pin the nav: prevent hide and ensure it is visible
+          body.classList.add('nav-pinned');
+          body.classList.remove('nav-hidden');
+        }
+      });
+
+      // Frost overlay toggle: show/hide tinted overlay
+      fToggle.addEventListener('click', function() {
+        const isOn = !fToggle.classList.contains('on');
+        fToggle.classList.toggle('on', isOn);
+        fToggle.setAttribute('aria-checked', isOn.toString());
+        body.classList.toggle('frost-on', isOn);
+      });
+
+      // Blur toggle: adds blur to the frost overlay. When turned on this will
+      // automatically enable the frost and background pattern toggles so that
+      // users don't have to manually switch them on.  Rather than manually
+      // manipulate classes for those toggles, we invoke their click handlers
+      // when needed so all associated side effects occur consistently.
+      bToggle.addEventListener('click', function() {
+        const isOn = !bToggle.classList.contains('on');
+        bToggle.classList.toggle('on', isOn);
+        bToggle.setAttribute('aria-checked', isOn.toString());
+        body.classList.toggle('blur-on', isOn);
+        // When blur is enabled, also ensure both frost and background are on.
+        if (isOn) {
+          // If frost toggle exists and isn't already on, trigger a click to enable it.
+          if (fToggle && !fToggle.classList.contains('on')) {
+            fToggle.click();
+          }
+          // If background toggle exists and isn't already on, trigger a click to enable it.
+          if (bgToggle && !bgToggle.classList.contains('on')) {
+            bgToggle.click();
+          }
+        }
+      });
+
+      // Background pattern toggle: toggles bg-on on body
+      bgToggle.addEventListener('click', function() {
+        const isOn = !bgToggle.classList.contains('on');
+        bgToggle.classList.toggle('on', isOn);
+        bgToggle.setAttribute('aria-checked', isOn.toString());
+        body.classList.toggle('bg-on', isOn);
+      });
+
+      // Section background toggle: show/hide section backgrounds on .paper elements
+      if (sbToggle) {
+        sbToggle.addEventListener('click', function() {
+          const isOn = !sbToggle.classList.contains('on');
+          sbToggle.classList.toggle('on', isOn);
+          sbToggle.setAttribute('aria-checked', isOn.toString());
+          const input = sbToggle.querySelector('input[type="checkbox"]');
+          if (input) input.checked = isOn;
+          // When toggle is off (isOn=false), add no-section-bg to hide backgrounds; when on, remove
+          body.classList.toggle('no-section-bg', !isOn);
+        });
+      }
+
+      // Section border toggle: show/hide accent borders around .paper elements
+      if (brToggle) {
+        brToggle.addEventListener('click', function() {
+          const isOn = !brToggle.classList.contains('on');
+          brToggle.classList.toggle('on', isOn);
+          brToggle.setAttribute('aria-checked', isOn.toString());
+          const input = brToggle.querySelector('input[type="checkbox"]');
+          if (input) input.checked = isOn;
+          // When toggle is off, remove accent border (no-section-border), else restore
+          body.classList.toggle('no-section-border', !isOn);
+        });
+      }
+
+      // Nav hide using IntersectionObserver: a tiny sentinel element sits below the header.  When the sentinel
+      // leaves the viewport (scrolling away from the top) and the nav is not pinned, the nav is hidden by
+      // adding nav-hidden to the body.  When pinned or when the sentinel re-enters, nav-hidden is removed.
+      (function setupNavObserver() {
+        const sentinel = document.getElementById('navSentinel');
+        if (!sentinel) return;
+        const observer = new IntersectionObserver((entries) => {
+          const entry = entries[0];
+          if (entry && entry.intersectionRatio === 0 && !body.classList.contains('nav-pinned')) {
+            body.classList.add('nav-hidden');
+          } else {
+            body.classList.remove('nav-hidden');
+          }
+        }, { root: null, threshold: 0 });
+        observer.observe(sentinel);
+      })();
+
+      // Post task modal
+      function openModal() {
+        taskModal.classList.add('show');
+      }
+      function closeModal() {
+        taskModal.classList.remove('show');
+      }
+      openPostTaskBtn.addEventListener('click', openModal);
+      cancelTaskBtn.addEventListener('click', closeModal);
+      submitTaskBtn.addEventListener('click', function() {
+        closeModal();
+        showToast('Your task has been posted.');
+      });
+
+      /* ---------- Section card border toggles ---------- */
+      function setupCardBorderToggle(toggleEl, className) {
+        if (!toggleEl) return;
+        toggleEl.addEventListener('click', function() {
+          const isOn = !toggleEl.classList.contains('on');
+          toggleEl.classList.toggle('on', isOn);
+          toggleEl.setAttribute('aria-checked', isOn.toString());
+          const input = toggleEl.querySelector('input[type="checkbox"]');
+          if (input) input.checked = isOn;
+          body.classList.toggle(className, isOn);
+        });
+      }
+      setupCardBorderToggle(popularBorderToggle, 'popular-border-on');
+      setupCardBorderToggle(galleryBorderToggle, 'gallery-border-on');
+      setupCardBorderToggle(quickBorderToggle, 'quick-border-on');
+
+      /* ---------- Left control panel for reordering global controls ---------- */
+      (function initControlPanel() {
+        const panel = document.getElementById('controlPanel');
+        const list = document.getElementById('controlList');
+        const gctlContainer = document.querySelector('.gctl');
+        if (!panel || !list || !gctlContainer) return;
+        // Determine a sensible default order for the controls.  The order reflects
+        // Hide Nav first, followed by Gradients, Section Borders, Section BG,
+        // Blur, Frost and Background.  We sort the existing gctl children
+        // into this order before building the list so the initial state matches
+        // the desired layout shown to the user.
+        const defaultOrder = ['nToggle','gToggle','brToggle','sbToggle','bToggle','fToggle','bgToggle'];
+        // Sort the controls according to the index in defaultOrder.  Unknown IDs stay in place.
+        const sortedControls = Array.from(gctlContainer.children).sort((a,b) => {
+          const idA = a.querySelector('.g-toggle')?.id || '';
+          const idB = b.querySelector('.g-toggle')?.id || '';
+          const idxA = defaultOrder.indexOf(idA);
+          const idxB = defaultOrder.indexOf(idB);
+          // If either id isn't in the list, keep relative order
+          if (idxA === -1 && idxB === -1) return 0;
+          if (idxA === -1) return 1;
+          if (idxB === -1) return -1;
+          return idxA - idxB;
+        });
+        // Append the sorted controls back into the container in order
+        sortedControls.forEach(ctrl => gctlContainer.appendChild(ctrl));
+
+        // Build list items for each control in the (now ordered) gctl row.
+        // Each item is draggable via the native drag‑and‑drop API. We include
+        // a simple handle character so users know the item can be moved.  The
+        // old up/down arrow buttons are removed in favour of drag‑reorder.
+        sortedControls.forEach(ctrl => {
+          const toggleBtn = ctrl.querySelector('.g-toggle');
+          const labelSpan = ctrl.querySelector('span');
+          const id = toggleBtn?.id;
+          const label = labelSpan ? labelSpan.textContent.trim() : '';
+          if (!id) return;
+          const item = document.createElement('div');
+          item.className = 'control-item';
+          item.dataset.targetId = id;
+          item.setAttribute('draggable', 'true');
+          // Build markup with a drag handle and label.
+          // Use a proper grip icon instead of a simple arrow to communicate reordering.
+          item.innerHTML = `
+            <span class="drag-handle" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+              </svg>
+            </span>
+            <span class="label">${label}</span>`;
+          list.appendChild(item);
+        });
+        // Helper to apply the current order of items to the gctl container
+        function reorderGctl() {
+          const order = Array.from(list.children).map(it => it.dataset.targetId);
+          order.forEach(id => {
+            const btn = document.getElementById(id);
+            if (!btn) return;
+            const wrapper = btn.closest('.control');
+            if (wrapper) {
+              gctlContainer.appendChild(wrapper);
+            }
+          });
+        }
+        // Drag and drop handlers
+        let draggedItem = null;
+        list.addEventListener('dragstart', function(e) {
+          const target = e.target.closest('.control-item');
+          if (!target) return;
+          draggedItem = target;
+          // For visual feedback during drag
+          draggedItem.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        list.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          const target = e.target.closest('.control-item');
+          if (!target || target === draggedItem) return;
+          const rect = target.getBoundingClientRect();
+          const offset = e.clientY - rect.top;
+          if (offset > rect.height / 2) {
+            target.after(draggedItem);
+          } else {
+            target.before(draggedItem);
+          }
+        });
+        list.addEventListener('drop', function(e) {
+          e.preventDefault();
+          if (draggedItem) {
+            draggedItem.classList.remove('dragging');
+            draggedItem = null;
+            reorderGctl();
+          }
+        });
+        list.addEventListener('dragend', function() {
+          if (draggedItem) {
+            draggedItem.classList.remove('dragging');
+            draggedItem = null;
+          }
+        });
+        // Panel toggle button: show/hide the control panel with an eye icon
+        const panelToggle = document.getElementById('panelToggle');
+        if (panelToggle) {
+          panelToggle.addEventListener('click', function() {
+            const closed = document.body.classList.toggle('panel-closed');
+            // Update the aria-label but let CSS handle which icon is shown
+            this.setAttribute('aria-label', closed ? 'Show control panel' : 'Hide control panel');
+          });
+        }
+      })();
+
+
+      /* ---------- Standardized hover popups for buttons (tooltips) ---------- */
+      (function setupTooltips(){
+        const tip = document.getElementById('tooltip');
+        if (!tip) return;
+        let restoreMap = new WeakMap();
+
+        function getLabel(el){
+          return el.getAttribute('aria-label') || el.getAttribute('title') || el.dataset.tip || el.textContent.trim();
+        }
+
+        function showTip(e, el){
+          const txt = getLabel(el);
+          if (!txt) return;
+          if (el.hasAttribute('title') && !restoreMap.has(el)) {
+            restoreMap.set(el, el.getAttribute('title'));
+            el.removeAttribute('title');
+          }
+          tip.textContent = txt;
+          tip.style.left = e.clientX + 'px';
+          tip.style.top = e.clientY + 'px';
+          tip.style.opacity = '1';
+        }
+        function moveTip(e){
+          tip.style.left = e.clientX + 'px';
+          tip.style.top = e.clientY + 'px';
+        }
+        function hideTip(el){
+          tip.style.opacity = '0';
+          if (restoreMap.has(el)) {
+            el.setAttribute('title', restoreMap.get(el));
+            restoreMap.delete(el);
+          }
+        }
+
+        const selector = 'button, .btn, .copy-btn, .apply-btn, .scroll-arrow';
+        let currentEl = null;
+
+        document.addEventListener('mouseover', (e) => {
+          const el = e.target.closest(selector);
+          if (!el) return;
+          currentEl = el;
+          showTip(e, el);
+        });
+        document.addEventListener('mousemove', (e) => {
+          if (!currentEl) return;
+          moveTip(e);
+        });
+        document.addEventListener('mouseout', (e) => {
+          const el = e.target.closest(selector);
+          if (el && el === currentEl) {
+            hideTip(currentEl);
+            currentEl = null;
+          }
+        });
+        document.addEventListener('scroll', () => { tip.style.opacity = '0'; }, { passive: true });
+      })();
+
+      /* ---------- Ensure titles exist where missing (Apply buttons & scroll arrows) ---------- */
+      function ensureButtonTitles(){
+        document.querySelectorAll('#themeGallery .apply-btn').forEach(btn => {
+          if (!btn.getAttribute('title')) btn.setAttribute('title', 'Apply theme');
+        });
+        document.querySelectorAll('#themeGallery .copy-btn').forEach(btn => {
+          if (!btn.getAttribute('title')) btn.setAttribute('title', 'Copy palette');
+        });
+        const left = document.getElementById('scrollLeft');
+        const right = document.getElementById('scrollRight');
+        if (left && !left.getAttribute('title')) left.setAttribute('title', 'Scroll left');
+        if (right && !right.getAttribute('title')) right.setAttribute('title', 'Scroll right');
+      }
+
+      // Initial render
+      renderGallery();
+      ensureButtonTitles();
+    });
+  </script>
+
+  <!-- Global tooltip container -->
+  <div id="tooltip" style="position:fixed;z-index:9999;pointer-events:none;opacity:0;
+    transform:translate(-50%, -140%);background:var(--nav);color:var(--nav-text);
+    padding:6px 10px;border-radius:8px;font-size:12px;border:1px solid var(--ui-border);
+    box-shadow: var(--shadow);transition:opacity .12s ease"></div>
 </body>
 </html>
